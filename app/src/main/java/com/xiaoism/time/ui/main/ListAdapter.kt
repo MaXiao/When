@@ -2,14 +2,11 @@ package com.xiaoism.time.ui.main
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.recyclerview.widget.RecyclerView
-import com.xiaoism.time.R
 import com.xiaoism.time.databinding.ListCellItemBinding
-import kotlinx.android.synthetic.main.list_cell_item.view.*
+import com.xiaoism.time.model.City
+import com.xiaoism.time.model.TimeEntity
 
 class ListAdapter(context: Context) : RecyclerView.Adapter<ListAdapter.TimeViewHolder>() {
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -22,6 +19,8 @@ class ListAdapter(context: Context) : RecyclerView.Adapter<ListAdapter.TimeViewH
             binding.item = time
         }
     }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeViewHolder {
         val binding = ListCellItemBinding.inflate(inflater, parent, false);

@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.xiaoism.time.ui.main.TimeEntity" />
+            type="com.xiaoism.time.model.TimeEntity" />
     </data>
 
     <FrameLayout
