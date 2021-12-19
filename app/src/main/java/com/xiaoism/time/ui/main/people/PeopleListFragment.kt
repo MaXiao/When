@@ -19,8 +19,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.xiaoism.time.R
 import com.xiaoism.time.databinding.FragmentPersonBinding
 import com.xiaoism.time.model.City
+import com.xiaoism.time.model.Person
+import com.xiaoism.time.model.PersonWithCity
 
-class PeopleListFragment : Fragment() {
+class PeopleListFragment : Fragment(), OnPersonClickListener {
     private lateinit var viewModel: PeopleListViewModel
 
     override fun onCreateView(
@@ -37,17 +39,33 @@ class PeopleListFragment : Fragment() {
         binding.lifecycleOwner = this
 
         val recyclerView = binding.recyclerview
-        val adapter = PeopleListAdapter(requireContext())
+        val adapter = PeopleListAdapter(requireContext(), this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel = ViewModelProvider(this).get(PeopleListViewModel::class.java)
         viewModel.people.observe(viewLifecycleOwner, Observer { people ->
+            Log.e("person list", "people list updated")
             people?.let {
                 adapter.setPeople(people)
             }
         })
+        viewModel.getAllItem().observe(viewLifecycleOwner, Observer { all ->
+            Log.e("person list", "person list updated")
+        })
+
+        val fab = binding.fab;
+        fab.setOnClickListener {
+            viewModel.addPerson(Person(name = "wangwang1", cityId = "6534729"))
+        }
 
         return binding.root
+    }
+
+    override fun onItemClick(person: PersonWithCity) {
+        viewModel.deletePerson(person)
+//        viewModel.getAllItem().observe(viewLifecycleOwner, Observer { all ->
+//            Log.e("person list", all.map { p -> p.name }.toString())
+//        })
     }
 }

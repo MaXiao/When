@@ -17,13 +17,12 @@ import kotlinx.coroutines.launch
 class AddPersonViewModel @ViewModelInject constructor(application: Application) :
     AndroidViewModel(application) {
     private val database = TimeDatabase.getDatabase(application, viewModelScope)
-    private val repository = PersonRepository(database.peopleDao())
+    private val repository = PersonRepository(database.peopleDao)
     val destination = MutableLiveData<Event<Destination>>()
     val cityName = MutableLiveData<String>()
     private var _city: City? = null
 
     fun chooseCity() {
-        Log.d("ppl", "Add city ----------------")
         destination.value = Event(Destination.CITY)
     }
 

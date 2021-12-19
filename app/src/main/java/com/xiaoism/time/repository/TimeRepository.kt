@@ -9,7 +9,6 @@ class TimeRepository(
     private val cityDao: CityDao,
     private val groupDao: GroupDao
 ) {
-    val allTimes: LiveData<List<TimeEntity>> = timeDao.getAllTimes()
     val allCities: LiveData<List<City>> = cityDao.getAllCities();
     val allGroups: LiveData<List<GroupWithPersons>> = groupDao.getAll();
 

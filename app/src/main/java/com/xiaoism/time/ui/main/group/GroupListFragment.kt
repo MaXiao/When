@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.xiaoism.time.R
 import com.xiaoism.time.databinding.FragmentGroupsBinding
 import com.xiaoism.time.model.GroupWithPersons
+import com.xiaoism.time.model.Person
 
 class GroupListFragment : Fragment(), OnGroupClickListener {
     private lateinit var viewModel: GroupListViewModel
@@ -39,6 +40,11 @@ class GroupListFragment : Fragment(), OnGroupClickListener {
                 adapter.setGroups(groups)
             }
         })
+
+        val fab = binding.addGroup;
+        fab.setOnClickListener {
+            viewModel.addGroup()
+        }
 
         return binding.root
     }

@@ -22,21 +22,9 @@ class MainViewModel @ViewModelInject constructor(application: Application) :
     private val database = TimeDatabase.getDatabase(application, viewModelScope);
     private val repository: TimeRepository =
         TimeRepository(database.timeDao(), database.cityDao(), database.groupDao)
-    private val perRepo: PersonRepository = PersonRepository(database.peopleDao());
+    private val perRepo: PersonRepository = PersonRepository(database.peopleDao);
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-//            repository.createGroup("toronto")
-//            repository.createGroup("beijing")
-//            repository.addPersonToGroup(1, 1)
-//            repository.addPersonToGroup(2, 1)
-        }
-
-//        repository.allGroups.observeForever(Observer { groups ->
-//            groups?.let {
-//                Log.d("all groups", it.toString())
-//            }
-//        })
     }
 
     fun searchCity(input: String) {

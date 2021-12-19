@@ -15,14 +15,16 @@ import kotlinx.coroutines.launch
         City::class,
         Person::class,
         Group::class,
+        Note::class,
         GroupPersonCrossRef::class],
-    version = 1
+    version = 2
 )
 public abstract class TimeDatabase : RoomDatabase() {
     abstract fun timeDao(): TimeDao
     abstract fun cityDao(): CityDao
-    abstract fun peopleDao(): PersonDao
+    abstract val peopleDao: PersonDao
     abstract val groupDao: GroupDao
+    abstract val noteDao: NoteDao
 
     companion object {
         @Volatile

@@ -23,6 +23,7 @@ class TabHolderActivity : FragmentActivity() {
                 0 -> tab.text = "Add Person"
                 1 -> tab.text = "Person List"
                 2 -> tab.text = "Groups"
+                3 -> tab.text = "Notes"
                 else -> {
                 }
             }

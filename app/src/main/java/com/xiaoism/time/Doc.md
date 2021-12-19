@@ -18,13 +18,16 @@ name
 
 
 
-add data layer
-create time
-show a list of time
-search city by name
+
 create group
 import data
+time conversion
+time sync
 add clock UI
 
 add networking layer
+
+
+* 调通现有功能，people list, refresh
+* 加上建组功能
 
