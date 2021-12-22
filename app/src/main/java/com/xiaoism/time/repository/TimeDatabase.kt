@@ -15,7 +15,6 @@ import kotlinx.coroutines.launch
         City::class,
         Person::class,
         Group::class,
-        Note::class,
         GroupPersonCrossRef::class],
     version = 2
 )
@@ -24,7 +23,6 @@ public abstract class TimeDatabase : RoomDatabase() {
     abstract fun cityDao(): CityDao
     abstract val peopleDao: PersonDao
     abstract val groupDao: GroupDao
-    abstract val noteDao: NoteDao
 
     companion object {
         @Volatile
@@ -42,7 +40,6 @@ public abstract class TimeDatabase : RoomDatabase() {
                     TimeDatabase::class.java,
                     "synctime.db"
                 ).createFromAsset("database/times.db")
-                    .addCallback(TimeDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance
                 return instance

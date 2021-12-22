@@ -22,7 +22,7 @@ interface PersonDao {
     fun create(people: Person)
 
     @Query("DELETE from people")
-    suspend fun deleteAll()
+    fun deleteAll()
 
     @Delete
     fun delete(p: Person)

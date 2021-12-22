@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "a0f4e29bed214eb798bdbf360bc9f771",
+    "identityHash": "322583e66be7cd9d2276f2d1aa5a0d1d",
     "entities": [
       {
         "tableName": "time",
@@ -25,20 +25,8 @@
         "foreignKeys": []
       },
       {
-        "ftsVersion": "FTS4",
-        "ftsOptions": {
-          "tokenizer": "simple",
-          "tokenizerArgs": [],
-          "contentTable": "",
-          "languageIdColumnName": "",
-          "matchInfo": "FTS4",
-          "notIndexedColumns": [],
-          "prefixSizes": [],
-          "preferredOrder": "ASC"
-        },
-        "contentSyncTriggers": [],
         "tableName": "cities",
-        "createSql": "CREATE VIRTUAL TABLE IF NOT EXISTS `${TABLE_NAME}` USING FTS4(`Geoname ID` TEXT NOT NULL, `Name` TEXT NOT NULL, `ASCII Name` TEXT NOT NULL, `Timezone` TEXT NOT NULL, `Longitude` REAL NOT NULL, `Latitude` REAL NOT NULL, `Country` TEXT NOT NULL, `Alternate Names` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`Geoname ID` TEXT NOT NULL, `Name` TEXT NOT NULL, `ASCII Name` TEXT, `Timezone` TEXT NOT NULL, `Longitude` REAL NOT NULL, `Latitude` REAL NOT NULL, `Country` TEXT NOT NULL, `Alternate Names` TEXT, PRIMARY KEY(`Geoname ID`))",
         "fields": [
           {
             "fieldPath": "geonameId",
@@ -56,7 +44,7 @@
             "fieldPath": "asciiName",
             "columnName": "ASCII Name",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "timezone",
@@ -86,11 +74,13 @@
             "fieldPath": "alternateNames",
             "columnName": "Alternate Names",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           }
         ],
         "primaryKey": {
-          "columnNames": [],
+          "columnNames": [
+            "Geoname ID"
+          ],
           "autoGenerate": false
         },
         "indices": [],
@@ -155,32 +145,6 @@
         "foreignKeys": []
       },
       {
-        "tableName": "notes",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL)",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "title",
-            "columnName": "title",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "id"
-          ],
-          "autoGenerate": true
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
         "tableName": "GroupPersonCrossRef",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`groupId` INTEGER NOT NULL, `personId` INTEGER NOT NULL, PRIMARY KEY(`groupId`, `personId`))",
         "fields": [
@@ -211,7 +175,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a0f4e29bed214eb798bdbf360bc9f771')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '322583e66be7cd9d2276f2d1aa5a0d1d')"
     ]
   }
 }

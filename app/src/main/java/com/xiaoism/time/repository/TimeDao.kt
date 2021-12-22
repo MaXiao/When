@@ -13,8 +13,8 @@ interface TimeDao {
     fun getAllTimes(): LiveData<List<TimeEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(time: TimeEntity)
+    fun insert(time: TimeEntity)
 
     @Query("DELETE from time")
-    suspend fun deleteAll()
+    fun deleteAll()
 }
