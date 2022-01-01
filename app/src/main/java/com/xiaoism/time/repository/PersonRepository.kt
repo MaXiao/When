@@ -6,8 +6,9 @@ import androidx.lifecycle.LiveData
 import com.xiaoism.time.model.GroupWithPersons
 import com.xiaoism.time.model.Person
 import com.xiaoism.time.model.PersonWithCity
+import javax.inject.Inject
 
-class PersonRepository(private val personDao: PersonDao) {
+class PersonRepository @Inject constructor(private val personDao: PersonDao) {
     val allPerson: LiveData<List<PersonWithCity>> = personDao.getAllPerson()
     private val all: LiveData<List<Person>> = personDao.getAll()
 

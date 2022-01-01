@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -17,8 +18,12 @@ import com.xiaoism.time.R
 import com.xiaoism.time.databinding.FragmentCityBinding
 import com.xiaoism.time.model.City
 import com.xiaoism.time.ui.main.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddCityActivity : AppCompatActivity(), OnCityClickListener {
+    private val viewModel by viewModels<MainViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -31,7 +36,6 @@ class AddCityActivity : AppCompatActivity(), OnCityClickListener {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.cities.observe(this, Observer { cities ->
             cities?.let { adapter.setCities(cities) }
         })

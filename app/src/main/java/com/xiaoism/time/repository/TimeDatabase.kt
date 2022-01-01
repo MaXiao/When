@@ -11,7 +11,6 @@ import kotlinx.coroutines.launch
 
 @Database(
     entities = [
-        TimeEntity::class,
         City::class,
         Person::class,
         Group::class,
@@ -19,8 +18,7 @@ import kotlinx.coroutines.launch
     version = 2
 )
 public abstract class TimeDatabase : RoomDatabase() {
-    abstract fun timeDao(): TimeDao
-    abstract fun cityDao(): CityDao
+    abstract val cityDao: CityDao
     abstract val peopleDao: PersonDao
     abstract val groupDao: GroupDao
 

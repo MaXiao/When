@@ -2,28 +2,8 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "322583e66be7cd9d2276f2d1aa5a0d1d",
+    "identityHash": "a681a6415694f8346997eb22b16fc6d7",
     "entities": [
-      {
-        "tableName": "time",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`text` TEXT NOT NULL, PRIMARY KEY(`text`))",
-        "fields": [
-          {
-            "fieldPath": "text",
-            "columnName": "text",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "text"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
       {
         "tableName": "cities",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`Geoname ID` TEXT NOT NULL, `Name` TEXT NOT NULL, `ASCII Name` TEXT, `Timezone` TEXT NOT NULL, `Longitude` REAL NOT NULL, `Latitude` REAL NOT NULL, `Country` TEXT NOT NULL, `Alternate Names` TEXT, PRIMARY KEY(`Geoname ID`))",
@@ -175,7 +155,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '322583e66be7cd9d2276f2d1aa5a0d1d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a681a6415694f8346997eb22b16fc6d7')"
     ]
   }
 }

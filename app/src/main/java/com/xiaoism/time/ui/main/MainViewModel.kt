@@ -3,29 +3,21 @@ package com.xiaoism.time.ui.main
 import android.app.Application
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.xiaoism.time.model.City
-import com.xiaoism.time.model.TimeEntity
-import com.xiaoism.time.repository.PersonRepository
-import com.xiaoism.time.repository.TimeDatabase
-import com.xiaoism.time.repository.TimeRepository
+import com.xiaoism.time.repository.CityRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel @ViewModelInject constructor(application: Application) :
-    AndroidViewModel(application) {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
+    private val repository: CityRepository
+) :
+    ViewModel() {
     val cities: MutableLiveData<List<City>> = MutableLiveData()
-    private val database = TimeDatabase.getDatabase(application, viewModelScope);
-    private val repository: TimeRepository =
-        TimeRepository(database.timeDao(), database.cityDao(), database.groupDao)
-    private val perRepo: PersonRepository = PersonRepository(database.peopleDao);
-
-    init {
-    }
 
     fun searchCity(input: String) {
         if (input.length < 3) {

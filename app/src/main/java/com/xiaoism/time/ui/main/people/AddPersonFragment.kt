@@ -9,15 +9,18 @@ import android.view.ViewGroup
 import androidx.activity.result.launch
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.xiaoism.time.R
 import com.xiaoism.time.databinding.FragmentAddPersonBinding
 import com.xiaoism.time.model.City
 import com.xiaoism.time.ui.main.city.CityActivityContract
 import com.xiaoism.time.util.livedata.EventObserver
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddPersonFragment : Fragment() {
-    lateinit var viewModel: AddPersonViewModel
+    private val viewModel by viewModels<AddPersonViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +35,7 @@ class AddPersonFragment : Fragment() {
         )
         binding.lifecycleOwner = this
 
-        viewModel = ViewModelProvider(this).get(AddPersonViewModel::class.java)
+//        viewModel = ViewModelProvider(this).get(AddPersonViewModel::class.java)
         binding.viewModel = viewModel
 
         viewModel.destination.observe(requireActivity(), EventObserver {
