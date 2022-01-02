@@ -20,6 +20,7 @@
 
         <activity android:name=".ui.main.city.AddCityActivity" />
         <activity android:name=".ui.main.group.GroupActivity" />
+        <activity android:name=".ui.main.group.CreateGroupActivity" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

@@ -27,9 +27,13 @@ object DBModule {
 
     @Singleton
     @Provides
-    fun providePersonDao(db: TimeDatabase) = db.peopleDao;
+    fun providePersonDao(db: TimeDatabase) = db.peopleDao
 
     @Singleton
     @Provides
-    fun provideCityDao(db: TimeDatabase) = db.cityDao;
+    fun provideCityDao(db: TimeDatabase) = db.cityDao
+
+    @Singleton
+    @Provides
+    fun provideGroupDao(db: TimeDatabase) = db.groupDao
 }

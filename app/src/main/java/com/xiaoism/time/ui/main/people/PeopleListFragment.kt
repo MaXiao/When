@@ -44,9 +44,6 @@ class PeopleListFragment : Fragment(), OnPersonClickListener {
                 adapter.setPeople(people)
             }
         })
-        viewModel.getAllItem().observe(viewLifecycleOwner, Observer { all ->
-            Log.e("person list", "person list updated")
-        })
 
         val fab = binding.fab;
         fab.setOnClickListener {
@@ -58,8 +55,5 @@ class PeopleListFragment : Fragment(), OnPersonClickListener {
 
     override fun onItemClick(person: PersonWithCity) {
         viewModel.deletePerson(person)
-//        viewModel.getAllItem().observe(viewLifecycleOwner, Observer { all ->
-//            Log.e("person list", all.map { p -> p.name }.toString())
-//        })
     }
 }

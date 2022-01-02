@@ -34,8 +34,6 @@ class AddPersonFragment : Fragment() {
             false
         )
         binding.lifecycleOwner = this
-
-//        viewModel = ViewModelProvider(this).get(AddPersonViewModel::class.java)
         binding.viewModel = viewModel
 
         viewModel.destination.observe(requireActivity(), EventObserver {

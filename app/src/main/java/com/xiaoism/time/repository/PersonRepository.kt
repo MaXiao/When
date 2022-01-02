@@ -14,7 +14,6 @@ class PersonRepository @Inject constructor(private val personDao: PersonDao) {
 
     fun create(person: Person) {
         Log.w("person repo", "create person" + person.toString())
-//        personDao.create(person)
         InsertPersonAsyncTask(personDao).execute(person)
     }
 

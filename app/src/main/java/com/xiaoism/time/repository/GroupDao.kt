@@ -15,7 +15,7 @@ interface GroupDao {
     @Insert()
     fun create(group: Group): Long
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertGroupAndPersonCrossRef(groupPersonCrossRef: GroupPersonCrossRef)
 
     @Transaction

@@ -15,7 +15,9 @@ import com.xiaoism.time.R
 import com.xiaoism.time.databinding.FragmentGroupsBinding
 import com.xiaoism.time.model.GroupWithPersons
 import com.xiaoism.time.model.Person
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class GroupListFragment : Fragment(), OnGroupClickListener {
     private lateinit var viewModel: GroupListViewModel
 
@@ -43,7 +45,7 @@ class GroupListFragment : Fragment(), OnGroupClickListener {
 
         val fab = binding.addGroup;
         fab.setOnClickListener {
-            viewModel.addGroup()
+            createGroup()
         }
 
         return binding.root
@@ -52,6 +54,11 @@ class GroupListFragment : Fragment(), OnGroupClickListener {
     override fun onItemClick(group: GroupWithPersons) {
         val intent = Intent(activity, GroupActivity::class.java)
         intent.putExtra("group", group)
+        startActivity(intent)
+    }
+
+    private fun createGroup() {
+        val intent = Intent(activity, CreateGroupActivity::class.java)
         startActivity(intent)
     }
 }
