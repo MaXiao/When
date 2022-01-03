@@ -45,6 +45,12 @@ class PeopleListFragment : Fragment(), OnPersonClickListener {
             }
         })
 
+        viewModel.selection.observe(viewLifecycleOwner, { selection ->
+            selection?.let {
+                adapter.setSelection(selection)
+            }
+        })
+
         val fab = binding.fab;
         fab.setOnClickListener {
             viewModel.addPerson(Person(name = "wangwang1", cityId = "6534729"))
@@ -53,7 +59,7 @@ class PeopleListFragment : Fragment(), OnPersonClickListener {
         return binding.root
     }
 
-    override fun onItemClick(person: PersonWithCity) {
-        viewModel.deletePerson(person)
+    override fun onItemClick(person: PersonWithCity, index: Int) {
+        viewModel.toggleSelection(index)
     }
 }

@@ -30,10 +30,6 @@ class PersonRepository @Inject constructor(private val personDao: PersonDao) {
         return personDao.getAll();
     }
 
-    fun getAllItems(): LiveData<List<Person>> {
-        return all;
-    }
-
     private class InsertPersonAsyncTask(val personDao: PersonDao) :
         AsyncTask<Person, Unit, Unit>() {
         override fun doInBackground(vararg p: Person?) {

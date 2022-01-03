@@ -9,6 +9,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Selki/develop/When/app/src/main/res/layout/activity_create_group.xml" value="0.25" />
+        <entry key="..\:/Users/Selki/develop/When/app/src/main/res/layout/activity_person_selection.xml" value="0.21105072463768115" />
+        <entry key="..\:/Users/Selki/develop/When/app/src/main/res/layout/cell_people.xml" value="0.21105072463768115" />
         <entry key="..\:/Users/Selki/develop/When/app/src/main/res/layout/city_cell_item.xml" value="0.24114583333333334" />
         <entry key="..\:/Users/Selki/develop/When/app/src/main/res/layout/fragment_add_person.xml" value="0.2315096251266464" />
         <entry key="..\:/Users/Selki/develop/When/app/src/main/res/layout/fragment_city.xml" value="0.24114583333333334" />

@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.xiaoism.time.databinding.CellPeopleBinding
 import com.xiaoism.time.model.GroupWithPersons
+import com.xiaoism.time.model.Person
 import com.xiaoism.time.model.PersonWithCity
+import com.xiaoism.time.ui.main.people.PersonCellState
 
 class GroupAdapter(context: Context) : RecyclerView.Adapter<GroupAdapter.GroupViewHolder>() {
     private val inflater = LayoutInflater.from(context)
@@ -15,7 +17,7 @@ class GroupAdapter(context: Context) : RecyclerView.Adapter<GroupAdapter.GroupVi
     inner class GroupViewHolder(val binding: CellPeopleBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(person: PersonWithCity) {
-            binding.item = person
+            binding.item = PersonCellState(person, false)
         }
     }
 

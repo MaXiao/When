@@ -8,6 +8,7 @@ import com.xiaoism.time.model.Person
 import com.xiaoism.time.model.PersonWithCity
 import com.xiaoism.time.repository.PersonRepository
 import com.xiaoism.time.repository.TimeDatabase
+import com.xiaoism.time.ui.main.notifyObserver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,15 +16,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PeopleListViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
     private val repository: PersonRepository
 ) :
     ViewModel() {
     var people: LiveData<List<PersonWithCity>>
-    val all: LiveData<List<Person>> = repository.getAllItems()
+    val selection: MutableLiveData<MutableList<Int>> = MutableLiveData()
 
     init {
         people = repository.allPerson
+        selection.value = ArrayList()
     }
 
     fun deletePerson(p: PersonWithCity) {
@@ -38,7 +39,14 @@ class PeopleListViewModel @Inject constructor(
         }
     }
 
-    fun getAllItem(): LiveData<List<Person>> {
-        return repository.getAllMember();
+    fun toggleSelection(index: Int) {
+        selection.value?.let { list ->
+            if (list.contains(index)) {
+                list.remove(index)
+            } else {
+                list.add(index)
+            }
+        }
+        selection.notifyObserver()
     }
 }

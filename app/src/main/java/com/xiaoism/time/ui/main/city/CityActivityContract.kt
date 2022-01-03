@@ -18,7 +18,7 @@ class CityActivityContract : ActivityResultContract<Unit, City?>() {
 
     override fun parseResult(resultCode: Int, intent: Intent?): City? {
         if (resultCode != Activity.RESULT_OK) {
-            return null;
+            return null
         }
 
         return intent?.getParcelableExtra<City>(CITY);

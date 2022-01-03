@@ -10,19 +10,20 @@ import com.xiaoism.time.model.Person
 import com.xiaoism.time.model.PersonWithCity
 
 interface OnPersonClickListener {
-    fun onItemClick(person: PersonWithCity);
+    fun onItemClick(person: PersonWithCity, index: Int);
 }
 
 class PeopleListAdapter(context: Context, val listener: OnPersonClickListener) :
     RecyclerView.Adapter<PeopleListAdapter.PeopleViewHolder>() {
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var people = emptyList<PersonWithCity>()
+    private var selection = emptyList<Int>()
 
     inner class PeopleViewHolder(val binding: CellPeopleBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(p: PersonWithCity) {
-            binding.item = p
-            binding.textview.setOnClickListener { listener.onItemClick(p) }
+        fun bind(p: PersonWithCity, index: Int) {
+            binding.item = PersonCellState(p, selection.contains(index))
+            binding.textview.setOnClickListener { listener.onItemClick(p, index) }
         }
     }
 
@@ -32,13 +33,18 @@ class PeopleListAdapter(context: Context, val listener: OnPersonClickListener) :
     }
 
     override fun onBindViewHolder(holder: PeopleViewHolder, position: Int) {
-        holder.bind(people[position])
+        holder.bind(people[position], position)
     }
 
     override fun getItemCount(): Int = people.size
 
     fun setPeople(people: List<PersonWithCity>) {
         this.people = people
+        notifyDataSetChanged()
+    }
+
+    fun setSelection(selection: List<Int>) {
+        this.selection = selection
         notifyDataSetChanged()
     }
 }

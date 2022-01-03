@@ -21,6 +21,8 @@
         <activity android:name=".ui.main.city.AddCityActivity" />
         <activity android:name=".ui.main.group.GroupActivity" />
         <activity android:name=".ui.main.group.CreateGroupActivity" />
+        <activity android:name=".ui.main.people.PersonSelectionActivity" />
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

@@ -59,7 +59,7 @@ class AddCityActivity : AppCompatActivity(), OnCityClickListener {
     override fun onItemClick(city: City) {
         val intent = Intent()
         intent.putExtra(CityActivityContract.CITY, city)
-        setResult(Activity.RESULT_OK, intent);
-        finish();
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 }
