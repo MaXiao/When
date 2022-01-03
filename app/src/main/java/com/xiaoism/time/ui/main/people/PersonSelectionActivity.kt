@@ -17,7 +17,7 @@ class PersonSelectionActivity : AppCompatActivity(R.layout.activity_person_selec
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                add<PeopleListFragment>(R.id.person_selection)
+                add<PersonSelectionFragment>(R.id.person_selection)
             }
         }
     }

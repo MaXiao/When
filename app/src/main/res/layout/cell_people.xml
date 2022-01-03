@@ -7,7 +7,10 @@
 
         <variable
             name="item"
-            type="com.xiaoism.time.ui.main.people.PersonCellState" />
+            type="com.xiaoism.time.model.PersonWithCity" />
+        <variable
+            name="selected"
+            type="Boolean" />
     </data>
 
     <FrameLayout
@@ -18,9 +21,9 @@
             android:id="@+id/textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@{item.selected ? @android:color/holo_green_dark : @android:color/holo_orange_light}"
+            android:background="@{selected ? @android:color/holo_green_dark : @android:color/holo_orange_light}"
             android:gravity="center"
-            android:text="@{String.format(@string/person_with_city, item.person.person.name, item.person.city.name)}"
+            android:text="@{String.format(@string/person_with_city, item.person.name, item.city.name)}"
             android:textSize="30sp"
             tools:text="Sample" />
 

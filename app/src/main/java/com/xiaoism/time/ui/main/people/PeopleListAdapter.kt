@@ -17,12 +17,13 @@ class PeopleListAdapter(context: Context, val listener: OnPersonClickListener) :
     RecyclerView.Adapter<PeopleListAdapter.PeopleViewHolder>() {
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var people = emptyList<PersonWithCity>()
-    private var selection = emptyList<Int>()
+    private var selection = emptyList<Person>()
 
     inner class PeopleViewHolder(val binding: CellPeopleBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(p: PersonWithCity, index: Int) {
-            binding.item = PersonCellState(p, selection.contains(index))
+            binding.item = p
+            binding.selected = selection.contains(p.person)
             binding.textview.setOnClickListener { listener.onItemClick(p, index) }
         }
     }
@@ -43,8 +44,8 @@ class PeopleListAdapter(context: Context, val listener: OnPersonClickListener) :
         notifyDataSetChanged()
     }
 
-    fun setSelection(selection: List<Int>) {
-        this.selection = selection
+    fun setSelection(selection: List<PersonWithCity>) {
+        this.selection = selection.map { it -> it.person }
         notifyDataSetChanged()
     }
 }

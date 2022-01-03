@@ -2,6 +2,7 @@ package com.xiaoism.time.ui.main.group
 
 import android.app.Person
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,13 +20,18 @@ class CreateGroupViewModel @Inject constructor(private val repository: GroupRepo
     ViewModel() {
     val destination = MutableLiveData<Event<Destination>>()
     private var name: String = ""
-    private var persons = listOf<Person>()
+    val persons = MutableLiveData<List<PersonWithCity>>()
 
     fun save() {
-        if (name.isNotEmpty()) {
+        if (name.isEmpty()) {
+            return
+        }
+        Log.e("group", "try to save group")
+        persons.value?.let { list ->
+            val members = list.map { p -> p.person }
             viewModelScope.launch(Dispatchers.IO) {
-                val groupId = repository.createGroup(name)
-                Log.e("group", groupId.toString())
+                repository.createGroupAndAddMembers(name, members)
+                Log.e("grop", "save")
             }
         }
     }
@@ -38,8 +44,8 @@ class CreateGroupViewModel @Inject constructor(private val repository: GroupRepo
         name = s.toString()
     }
 
-    fun updateMembers(list: List<Person>) {
-        persons = list
+    fun updateMembers(list: List<PersonWithCity>) {
+        persons.value = list
     }
 
     enum class Destination {

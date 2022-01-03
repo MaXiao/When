@@ -20,11 +20,9 @@ class PeopleListViewModel @Inject constructor(
 ) :
     ViewModel() {
     var people: LiveData<List<PersonWithCity>>
-    val selection: MutableLiveData<MutableList<Int>> = MutableLiveData()
 
     init {
         people = repository.allPerson
-        selection.value = ArrayList()
     }
 
     fun deletePerson(p: PersonWithCity) {
@@ -37,16 +35,5 @@ class PeopleListViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.create(p);
         }
-    }
-
-    fun toggleSelection(index: Int) {
-        selection.value?.let { list ->
-            if (list.contains(index)) {
-                list.remove(index)
-            } else {
-                list.add(index)
-            }
-        }
-        selection.notifyObserver()
     }
 }

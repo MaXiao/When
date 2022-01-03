@@ -10,14 +10,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/save"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:onClick="@{() -> {}}"
-        android:text="Confirm"
-        android:layout_marginBottom="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
