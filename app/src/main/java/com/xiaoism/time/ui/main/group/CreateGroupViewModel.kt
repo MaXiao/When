@@ -26,12 +26,10 @@ class CreateGroupViewModel @Inject constructor(private val repository: GroupRepo
         if (name.isEmpty()) {
             return
         }
-        Log.e("group", "try to save group")
         persons.value?.let { list ->
             val members = list.map { p -> p.person }
             viewModelScope.launch(Dispatchers.IO) {
                 repository.createGroupAndAddMembers(name, members)
-                Log.e("grop", "save")
             }
         }
     }
