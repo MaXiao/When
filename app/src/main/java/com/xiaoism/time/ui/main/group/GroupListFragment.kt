@@ -6,49 +6,96 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.xiaoism.time.R
-import com.xiaoism.time.databinding.FragmentGroupsBinding
+import androidx.fragment.app.viewModels
+
+import com.xiaoism.time.model.Group
 import com.xiaoism.time.model.GroupWithPersons
-import com.xiaoism.time.model.Person
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class GroupListFragment : Fragment(), OnGroupClickListener {
-    private lateinit var viewModel: GroupListViewModel
+    private val viewModel by viewModels<GroupListViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = DataBindingUtil.inflate<FragmentGroupsBinding>(
-            inflater, R.layout.fragment_groups, container, false
-        )
-        binding.lifecycleOwner = this
+//        val binding = DataBindingUtil.inflate<FragmentGroupsBinding>(
+//            inflater, R.layout.fragment_groups, container, false
+//        )
+//        binding.lifecycleOwner = this
+//
+//        val recyclerView = binding.groupList
+//        val adapter = GroupListAdapter(requireContext(), this)
+//        recyclerView.adapter = adapter
+//        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+//
+//        viewModel = ViewModelProvider(this).get(GroupListViewModel::class.java)
+//        viewModel.groups.observe(viewLifecycleOwner, Observer { groups ->
+//            groups?.let {
+//                adapter.setGroups(groups)
+//            }
+//        })
+//
+//        val fab = binding.addGroup;
+//        fab.setOnClickListener {
+//            createGroup()
+//        }
+//
+//        return binding.root
 
-        val recyclerView = binding.groupList
-        val adapter = GroupListAdapter(requireContext(), this)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        viewModel = ViewModelProvider(this).get(GroupListViewModel::class.java)
-        viewModel.groups.observe(viewLifecycleOwner, Observer { groups ->
-            groups?.let {
-                adapter.setGroups(groups)
+        return ComposeView(requireContext()).apply {
+            setContent {
+                Scaffold(floatingActionButton = { createBtn() }, content = { listContent() })
             }
-        })
+        }
+    }
 
-        val fab = binding.addGroup;
-        fab.setOnClickListener {
-            createGroup()
+    @Composable
+    private fun listContent() {
+        val groups by viewModel.groups.observeAsState(initial = emptyList())
+
+
+        LazyColumn {
+            items(groups) { group ->
+                groupRow(group = group)
+            }
         }
 
-        return binding.root
+
+    }
+
+    @Composable
+    private fun createBtn() {
+        val onClick = {
+            createGroup()
+        }
+        FloatingActionButton(onClick = onClick) {
+            Icon(Icons.Filled.Add, "")
+        }
+    }
+
+    @Composable
+    private fun groupRow(group: GroupWithPersons) {
+        Row {
+            Text(text = "${group.group.name}")
+        }
     }
 
     override fun onItemClick(group: GroupWithPersons) {

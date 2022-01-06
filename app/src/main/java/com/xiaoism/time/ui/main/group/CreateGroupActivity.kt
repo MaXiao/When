@@ -57,7 +57,6 @@ class CreateGroupActivity : AppCompatActivity(), OnPersonClickListener {
     }
 
     private val selectMembers = registerForActivityResult(PersonsSelectActivityContract()) { list ->
-        Log.e("group", list?.toString())
         list?.let {
             viewModel.updateMembers(it)
         }
