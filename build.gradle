@@ -30,7 +30,7 @@ ext {
     archLifecycleVersion = '2.2.0'
     coreTestingVersion = '2.1.0'
     materialVersion = '1.1.0'
-    coroutines = '1.3.4'
+    coroutines = '1.6.0-RC'
     hiltVersion = '2.38.1'
     composeVersion = '1.1.0-rc02'
 }

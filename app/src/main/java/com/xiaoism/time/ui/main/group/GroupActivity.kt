@@ -1,15 +1,12 @@
 package com.xiaoism.time.ui.main.group
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,11 +15,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.platform.ComposeView
-import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.xiaoism.time.R
-import com.xiaoism.time.databinding.ActivityGroupBinding
 import com.xiaoism.time.model.GroupWithPersons
 import com.xiaoism.time.model.PersonWithCity
 
@@ -33,7 +25,6 @@ class GroupActivity : ComponentActivity() {
 
 
         val group: GroupWithPersons? = intent.getParcelableExtra("group") as? GroupWithPersons
-        Log.d("grou view", group.toString())
 
         group?.let {
             setContent {

@@ -1,14 +1,10 @@
 package com.xiaoism.time.ui.main.group
 
-import android.app.Person
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xiaoism.time.model.PersonWithCity
 import com.xiaoism.time.repository.GroupRepository
-import com.xiaoism.time.ui.main.people.AddPersonViewModel
 import com.xiaoism.time.util.livedata.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
