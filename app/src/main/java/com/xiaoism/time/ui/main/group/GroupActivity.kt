@@ -1,6 +1,7 @@
 package com.xiaoism.time.ui.main.group
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -17,9 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xiaoism.time.model.GroupWithPersons
 import com.xiaoism.time.model.PersonWithCity
+import java.util.*
 
 class GroupActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -56,6 +57,8 @@ class GroupActivity : ComponentActivity() {
 
     @Composable
     private fun row(person: PersonWithCity) {
+        val date = Date()
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -64,7 +67,9 @@ class GroupActivity : ComponentActivity() {
                 .padding(horizontal = 12.dp, vertical = 6.dp)
         ) {
             Text(person.person.name, fontSize = 16.sp)
-            Text(person.city!!.name, fontSize = 13.sp, color = Color.LightGray)
+            if (person.city != null) {
+                Text("${person.city.getLocalTimeFor(date)}", fontSize = 13.sp, color = Color.LightGray)
+            } else null
         }
     }
 }
