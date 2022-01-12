@@ -22,6 +22,14 @@ data class City(
     @Ignore
     val zone: TimeZone = TimeZone.getTimeZone(timezone)
 
+    @delegate:Ignore
+    private val dateFormat: SimpleDateFormat by lazy {
+        val format = SimpleDateFormat("HH:mm:ss / MMM dd",
+            Locale.getDefault())
+        format.timeZone = zone
+        format
+    }
+
     fun getRawUTCOffset(): Int {
         return zone.rawOffset
     }
@@ -36,9 +44,6 @@ data class City(
     }
 
     fun getLocalTimeFor(date: Date): String {
-        val dateFormat = SimpleDateFormat("HH:mm:ss / MMM dd",
-            Locale.getDefault())
-        dateFormat.timeZone = zone
         return dateFormat.format(date)
     }
 }
