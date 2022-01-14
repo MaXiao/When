@@ -48,6 +48,8 @@ class AddPersonViewModel @Inject constructor(
     }
 
     enum class Destination {
-        CITY
+        CITY,
+        SAVE_SUCCESS,
+        SAVE_FAILED
     }
 }

@@ -24,9 +24,7 @@ class GroupActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         val group: GroupWithPersons? = intent.getParcelableExtra("group") as? GroupWithPersons
-
         group?.let {
             setContent {
                 content(group = it)
