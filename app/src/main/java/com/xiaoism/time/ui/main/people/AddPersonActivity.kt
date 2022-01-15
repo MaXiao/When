@@ -20,10 +20,8 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.android.material.textfield.TextInputEditText
 import com.xiaoism.time.model.City
 import com.xiaoism.time.ui.main.city.CityActivityContract
 import com.xiaoism.time.util.livedata.EventObserver
