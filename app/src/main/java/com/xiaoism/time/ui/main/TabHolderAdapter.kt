@@ -7,7 +7,7 @@ import com.xiaoism.time.ui.main.group.GroupListFragment
 import com.xiaoism.time.ui.main.people.AddPersonFragment
 import com.xiaoism.time.ui.main.people.PeopleListFragment
 
-private const val NUM_PAGES = 3;
+private const val NUM_PAGES = 2;
 
 class TabHolderAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     override fun getItemCount(): Int = NUM_PAGES
@@ -15,8 +15,7 @@ class TabHolderAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> AddPersonFragment()
-            1 -> PeopleListFragment()
+            0 -> PeopleListFragment()
             else -> GroupListFragment()
         }
     }

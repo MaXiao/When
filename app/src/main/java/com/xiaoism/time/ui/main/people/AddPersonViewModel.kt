@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddPersonViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle, private val repository: PersonRepository
+    private val repository: PersonRepository
 ) :
     ViewModel() {
     val destination = MutableLiveData<Event<Destination>>()
@@ -37,6 +37,7 @@ class AddPersonViewModel @Inject constructor(
                     )
                 )
             }
+            destination.value = Event(Destination.SAVE_SUCCESS)
         }
     }
 

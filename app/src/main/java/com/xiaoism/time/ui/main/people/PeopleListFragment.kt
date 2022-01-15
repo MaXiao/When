@@ -1,5 +1,6 @@
 package com.xiaoism.time.ui.main.people
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -46,12 +47,17 @@ class PeopleListFragment : Fragment(), OnPersonClickListener {
 
         val fab = binding.fab;
         fab.setOnClickListener {
-            viewModel.addPerson(Person(name = "wangwang1", cityId = "6534729"))
+            addPerson()
         }
 
         return binding.root
     }
 
     override fun onItemClick(person: PersonWithCity, index: Int) {
+    }
+
+    private fun addPerson() {
+        val intent = Intent(requireActivity(), AddPersonActivity::class.java)
+        startActivity(intent)
     }
 }

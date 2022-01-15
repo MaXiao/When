@@ -22,10 +22,8 @@ class TabHolderActivity : FragmentActivity() {
         val tabLayout = findViewById<TabLayout>(R.id.tab_main)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when (position) {
-                0 -> tab.text = "Add Person"
-                1 -> tab.text = "Person List"
-                2 -> tab.text = "Groups"
-                3 -> tab.text = "Notes"
+                0 -> tab.text = "Person List"
+                1 -> tab.text = "Groups"
                 else -> {
                 }
             }
