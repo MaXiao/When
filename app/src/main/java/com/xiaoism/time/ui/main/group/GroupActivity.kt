@@ -29,7 +29,6 @@ import androidx.compose.runtime.setValue
 import com.xiaoism.time.model.Group
 import com.xiaoism.time.ui.main.people.PersonsSelectActivityContract
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.LocalDateTime
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -50,21 +49,21 @@ class GroupActivity : ComponentActivity() {
 
         setContent {
             Scaffold(
-                content = { content() },
-                floatingActionButton = { addBtn() }
+                content = { Content() },
+                floatingActionButton = { AddBtn() }
             )
         }
     }
 
     @Composable
-    private fun addBtn() {
+    private fun AddBtn() {
         FloatingActionButton(onClick = { addPerson() }) {
             Icon(Icons.Filled.Add, "")
         }
     }
 
     @Composable
-    private fun content() {
+    private fun Content() {
         val group by viewModel.group.observeAsState(
             initial = GroupWithPersons(
                 group = Group(name = ""),
@@ -74,9 +73,9 @@ class GroupActivity : ComponentActivity() {
         var sliderPosition by remember { mutableStateOf(0f) }
         val date = convertTime(sliderPosition.roundToInt() * 5)
 
-        Column() {
+        Column {
             Text(
-                "${group.group.name}",
+                group.group.name,
                 textAlign = TextAlign.Center,
                 fontSize = 30.sp,
                 modifier = Modifier
@@ -84,8 +83,8 @@ class GroupActivity : ComponentActivity() {
                     .padding(vertical = 10.dp)
             )
             LazyColumn(Modifier.weight(1f)) {
-                items(group?.persons) { person ->
-                    row(person, date)
+                items(group.persons) { person ->
+                    Row(person, date)
                     Divider(color = Color.Gray, thickness = 6.dp)
                 }
             }
@@ -104,7 +103,7 @@ class GroupActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun row(person: PersonWithCity, date: Date) {
+    private fun Row(person: PersonWithCity, date: Date) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -115,11 +114,11 @@ class GroupActivity : ComponentActivity() {
             Text(person.person.name, fontSize = 16.sp)
             if (person.city != null) {
                 Text(
-                    "${person.city.getLocalTimeFor(date)}",
+                    person.city.getLocalTimeFor(date),
                     fontSize = 13.sp,
                     color = Color.LightGray
                 )
-            } else null
+            }
         }
     }
 
