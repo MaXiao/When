@@ -91,7 +91,7 @@ class GroupListFragment : Fragment() {
 
     private fun onItemClick(group: GroupWithPersons) {
         val intent = Intent(activity, GroupActivity::class.java)
-        intent.putExtra("group", group)
+        intent.putExtra("group", group.group.groupId)
         startActivity(intent)
     }
 

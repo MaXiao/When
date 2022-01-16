@@ -24,7 +24,9 @@ import androidx.compose.ui.unit.sp
 import com.xiaoism.time.model.GroupWithPersons
 import com.xiaoism.time.model.PersonWithCity
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.setValue
+import com.xiaoism.time.model.Group
 import com.xiaoism.time.ui.main.people.PersonsSelectActivityContract
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDateTime
@@ -41,18 +43,17 @@ class GroupActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val group: GroupWithPersons? = intent.getParcelableExtra("group") as? GroupWithPersons
-        group?.let { group ->
-            viewModel.setGroup(group)
-
-            setContent {
-                Scaffold(
-                    content = { content(group = group) },
-                    floatingActionButton = { addBtn() }
-                )
-            }
+        val groupId = intent.getLongExtra("group", -1)
+        if (groupId >= 0) {
+            viewModel.configGroup(groupId)
         }
 
+        setContent {
+            Scaffold(
+                content = { content() },
+                floatingActionButton = { addBtn() }
+            )
+        }
     }
 
     @Composable
@@ -63,7 +64,13 @@ class GroupActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun content(group: GroupWithPersons) {
+    private fun content() {
+        val group by viewModel.group.observeAsState(
+            initial = GroupWithPersons(
+                group = Group(name = ""),
+                persons = emptyList()
+            )
+        )
         var sliderPosition by remember { mutableStateOf(0f) }
         val date = convertTime(sliderPosition.roundToInt() * 5)
 
@@ -77,7 +84,7 @@ class GroupActivity : ComponentActivity() {
                     .padding(vertical = 10.dp)
             )
             LazyColumn(Modifier.weight(1f)) {
-                items(group.persons) { person ->
+                items(group?.persons) { person ->
                     row(person, date)
                     Divider(color = Color.Gray, thickness = 6.dp)
                 }
@@ -120,12 +127,13 @@ class GroupActivity : ComponentActivity() {
         selectMembers.launch()
     }
 
-    private val selectMembers = registerForActivityResult(PersonsSelectActivityContract(multiChoice = false)) { list ->
-        list?.let {
-            Log.d("person", it.toString())
-            viewModel.addMember(it[0].person)
+    private val selectMembers =
+        registerForActivityResult(PersonsSelectActivityContract(multiChoice = false)) { list ->
+            list?.let {
+                Log.d("person", it.toString())
+                viewModel.addMember(it[0].person)
+            }
         }
-    }
 
     private fun convertTime(mins: Int): Date {
         Log.d("time", mins.toString())
