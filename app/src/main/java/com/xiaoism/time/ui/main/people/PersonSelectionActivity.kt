@@ -15,17 +15,17 @@ class PersonSelectionActivity : AppCompatActivity(R.layout.activity_person_selec
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
+            val fragment = PersonSelectionFragment()
+            val bundle = Bundle()
+            if (intent.extras != null) {
+                bundle.putAll(intent.extras)
+            }
+            fragment.arguments = bundle
+
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                add<PersonSelectionFragment>(R.id.person_selection)
+                add(R.id.person_selection, fragment)
             }
         }
-    }
-
-    private fun selectMembers(list: ArrayList<Person>) {
-        val intent = Intent()
-        intent.putParcelableArrayListExtra(PersonsSelectActivityContract.PERSON_LIST, list)
-        setResult(Activity.RESULT_OK, intent)
-        finish()
     }
 }

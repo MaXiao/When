@@ -15,6 +15,7 @@ class PersonSelectionViewModel @Inject constructor(private val repository: Perso
     ViewModel() {
     var people: LiveData<List<PersonWithCity>>
     val selection: MutableLiveData<MutableList<PersonWithCity>> = MutableLiveData()
+    var multiChoice: Boolean = false
 
     init {
         people = repository.allPerson

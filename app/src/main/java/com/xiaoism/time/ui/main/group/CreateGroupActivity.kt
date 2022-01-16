@@ -63,7 +63,6 @@ class CreateGroupActivity : AppCompatActivity(), OnPersonClickListener {
     }
 
     private fun goToSelectMembers() {
-        Log.e("group", "go select person")
         selectMembers.launch()
     }
 

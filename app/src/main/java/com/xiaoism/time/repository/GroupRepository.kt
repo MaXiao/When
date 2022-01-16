@@ -24,6 +24,10 @@ class GroupRepository @Inject constructor(private val groupDao: GroupDao) {
         groupDao.insertGroupAndPersonCrossRef(GroupPersonCrossRef(groupId, personId))
     }
 
+    fun removePersonFromGroup(personId: Long, groupId: Long) {
+        groupDao.removeGroupAndPersonCrossRef(GroupPersonCrossRef(groupId, personId))
+    }
+
     fun getGroup(groupId: Long): LiveData<GroupWithPersons> {
         return groupDao.getGroup(groupId)
     }

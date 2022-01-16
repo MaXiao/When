@@ -21,6 +21,9 @@ interface GroupDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllGroupAndPersonCrossRefs(refs: List<GroupPersonCrossRef>)
 
+    @Delete
+    fun removeGroupAndPersonCrossRef(groupPersonCrossRef: GroupPersonCrossRef)
+
     @Transaction
     @Query("SELECT * FROM `group` WHERE groupId = :groupId")
     fun getGroup(groupId: Long): LiveData<GroupWithPersons>

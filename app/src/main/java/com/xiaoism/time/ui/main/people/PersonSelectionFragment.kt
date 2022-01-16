@@ -19,6 +19,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class PersonSelectionFragment : Fragment(), OnPersonClickListener {
+    companion object {
+        const val MULTI_CHOICE = "MULTI_CHOICE"
+        const val EXISTING_MEMBER = "EXISTING_MEMBER"
+    }
+
     private val viewModel by viewModels<PersonSelectionViewModel>()
 
     override fun onCreateView(
@@ -26,6 +31,11 @@ class PersonSelectionFragment : Fragment(), OnPersonClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // default to be multi-choice
+        viewModel.multiChoice = arguments?.getBoolean(MULTI_CHOICE) ?: true
+//        val existingMembers: ArrayList<PersonWithCity> =
+//            arguments?.getParcelableArrayList(EXISTING_MEMBER)
+
         val binding = DataBindingUtil.inflate<FragmentPersonSelectionBinding>(
             inflater,
             R.layout.fragment_person_selection,
@@ -51,6 +61,8 @@ class PersonSelectionFragment : Fragment(), OnPersonClickListener {
             }
         })
 
+
+        binding.save.visibility = if (viewModel.multiChoice) View.VISIBLE else View.GONE
         binding.save.setOnClickListener {
             confirmSelection()
         }
@@ -60,6 +72,9 @@ class PersonSelectionFragment : Fragment(), OnPersonClickListener {
 
     override fun onItemClick(person: PersonWithCity, index: Int) {
         viewModel.toggleSelection(person)
+        if (!viewModel.multiChoice) {
+            confirmSelection()
+        }
     }
 
     private fun confirmSelection() {
