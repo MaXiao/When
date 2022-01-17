@@ -35,9 +35,7 @@ import kotlin.math.roundToInt
 @AndroidEntryPoint
 class GroupActivity : ComponentActivity() {
     private val viewModel by viewModels<GroupViewModel>()
-
-    private val minPerHour = 60
-    private val minPerDay = 24 * minPerHour
+    private val currentDate = Date()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,8 +69,9 @@ class GroupActivity : ComponentActivity() {
                 persons = emptyList()
             )
         )
+        var sliderTouched by remember { mutableStateOf(false) }
         var sliderPosition by remember { mutableStateOf(0f) }
-        val date = convertTime(sliderPosition.roundToInt() * 5)
+        val date = if (sliderTouched) convertTime(sliderPosition.roundToInt() * 5) else currentDate
 
         Column {
             Text(
@@ -92,8 +91,11 @@ class GroupActivity : ComponentActivity() {
 
             Slider(
                 value = sliderPosition,
-                onValueChange = { sliderPosition = it },
-                valueRange = 0f..(minPerDay / 5).toFloat(),
+                onValueChange = {
+                    sliderTouched = true
+                    sliderPosition = it
+                },
+                valueRange = 0f..(MIN_PER_DAY / 5).toFloat(),
                 colors = SliderDefaults.colors(
                     thumbColor = MaterialTheme.colors.secondary,
                     activeTrackColor = MaterialTheme.colors.secondary
@@ -139,12 +141,17 @@ class GroupActivity : ComponentActivity() {
 
     private fun convertTime(mins: Int): Date {
         Log.d("time", mins.toString())
-        val hour = mins / minPerHour
-        val min = mins % minPerHour
+        val hour = mins / MIN_PER_HOUR
+        val min = mins % MIN_PER_HOUR
         val cal = Calendar.getInstance()
         cal.set(Calendar.HOUR_OF_DAY, hour)
         cal.set(Calendar.MINUTE, min)
         return cal.time
     }
     //endregion
+
+    companion object {
+        const val MIN_PER_HOUR = 60
+        const val MIN_PER_DAY = MIN_PER_HOUR * 24
+    }
 }
