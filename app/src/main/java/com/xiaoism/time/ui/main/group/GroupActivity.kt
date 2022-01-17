@@ -12,9 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,9 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xiaoism.time.model.GroupWithPersons
 import com.xiaoism.time.model.PersonWithCity
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.setValue
 import com.xiaoism.time.model.Group
 import com.xiaoism.time.ui.main.people.PersonsSelectActivityContract
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,8 +65,8 @@ class GroupActivity : ComponentActivity() {
                 persons = emptyList()
             )
         )
-        var sliderTouched by remember { mutableStateOf(false) }
-        var sliderPosition by remember { mutableStateOf(0f) }
+        val (sliderTouched, setSliderTouched) = remember { mutableStateOf(false) }
+        val (sliderPosition, setSliderPosition) = remember { mutableStateOf(0f) }
         val date = if (sliderTouched) convertTime(sliderPosition.roundToInt() * 5) else currentDate
 
         Column {
@@ -89,20 +85,29 @@ class GroupActivity : ComponentActivity() {
                 }
             }
 
-            Slider(
-                value = sliderPosition,
-                onValueChange = {
-                    sliderTouched = true
-                    sliderPosition = it
-                },
-                valueRange = 0f..(MIN_PER_DAY / 5).toFloat(),
-                colors = SliderDefaults.colors(
-                    thumbColor = MaterialTheme.colors.secondary,
-                    activeTrackColor = MaterialTheme.colors.secondary
-                )
-            )
+            Slider(sliderPosition, setSliderPosition, setSliderTouched)
             Text(text = date.toString())
         }
+    }
+
+    @Composable
+    private fun Slider(
+        sliderPosition: Float,
+        setSliderPosition: (Float) -> Unit,
+        setSliderTouched: (Boolean) -> Unit
+    ) {
+        Slider(
+            value = sliderPosition,
+            onValueChange = {
+                setSliderTouched(true)
+                setSliderPosition(it)
+            },
+            valueRange = 0f..(MIN_PER_DAY / 5).toFloat(),
+            colors = SliderDefaults.colors(
+                thumbColor = MaterialTheme.colors.secondary,
+                activeTrackColor = MaterialTheme.colors.secondary
+            )
+        )
     }
 
     @Composable
