@@ -55,6 +55,7 @@ class GroupActivity : ComponentActivity() {
         }
     }
 
+    //region Views
     @Composable
     private fun AddBtn() {
         FloatingActionButton(onClick = { addPerson() }) {
@@ -121,7 +122,9 @@ class GroupActivity : ComponentActivity() {
             }
         }
     }
+    //endregion
 
+    //region Methods
     private fun addPerson() {
         selectMembers.launch()
     }
@@ -143,4 +146,5 @@ class GroupActivity : ComponentActivity() {
         cal.set(Calendar.MINUTE, min)
         return cal.time
     }
+    //endregion
 }
