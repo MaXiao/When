@@ -36,8 +36,8 @@ class CreateGroupActivity : AppCompatActivity(), OnPersonClickListener {
         recyclerView.adapter = adapter;
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val group: GroupWithPersons? = intent.getParcelableExtra("group") as? GroupWithPersons
-
+        val groupId = intent.getLongExtra(GROUP_ID, -1)
+        viewModel.configGroup(groupId)
 
         val selectBtn = binding.addMore
         selectBtn.setOnClickListener {
@@ -54,6 +54,12 @@ class CreateGroupActivity : AppCompatActivity(), OnPersonClickListener {
             adapter.setPeople(list)
         })
 
+        val input = binding.input
+        viewModel.group.observe(this, {group ->
+            adapter.setPeople(group.persons)
+            input.setText(group.group.name)
+        })
+
     }
 
     private val selectMembers = registerForActivityResult(PersonsSelectActivityContract()) { list ->
@@ -68,5 +74,9 @@ class CreateGroupActivity : AppCompatActivity(), OnPersonClickListener {
 
     override fun onItemClick(person: PersonWithCity, index: Int) {
 
+    }
+
+    companion object {
+        const val GROUP_ID = "GROUP_ID"
     }
 }

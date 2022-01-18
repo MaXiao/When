@@ -1,5 +1,6 @@
 package com.xiaoism.time.ui.main.group
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -70,14 +71,19 @@ class GroupActivity : ComponentActivity() {
         val date = if (sliderTouched) convertTime(sliderPosition.roundToInt() * 5) else currentDate
 
         Column {
-            Text(
-                group.group.name,
-                textAlign = TextAlign.Center,
-                fontSize = 30.sp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 10.dp)
-            )
+            Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(
+                    group.group.name,
+                    textAlign = TextAlign.Center,
+                    fontSize = 30.sp,
+                    modifier = Modifier
+                        .padding(vertical = 10.dp).weight(1f)
+                )
+
+                OutlinedButton(onClick = { editGroup(group.group.groupId) }) {
+                    Text("Edit")
+                }
+            }
             LazyColumn(Modifier.weight(1f)) {
                 items(group.persons) { person ->
                     Row(person, date)
@@ -152,6 +158,12 @@ class GroupActivity : ComponentActivity() {
         cal.set(Calendar.HOUR_OF_DAY, hour)
         cal.set(Calendar.MINUTE, min)
         return cal.time
+    }
+
+    private fun editGroup(groupId: Long) {
+        val intent = Intent(this, CreateGroupActivity::class.java)
+        intent.putExtra(CreateGroupActivity.GROUP_ID, groupId)
+        startActivity(intent)
     }
     //endregion
 
