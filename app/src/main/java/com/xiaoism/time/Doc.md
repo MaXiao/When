@@ -1,15 +1,14 @@
 group
-* remove member
-* change name
+* only add person that's not in the group already
 * share to calendar
 * reorder
 
 person
-* remove person
 * show current time
 * show person
 * change name
 * change city
+* delete person
 
 
 add clock UI

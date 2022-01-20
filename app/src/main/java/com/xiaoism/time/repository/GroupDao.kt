@@ -27,4 +27,7 @@ interface GroupDao {
     @Transaction
     @Query("SELECT * FROM `group` WHERE groupId = :groupId")
     fun getGroup(groupId: Long): LiveData<GroupWithPersons>
+
+    @Update
+    fun update(group: Group)
 }

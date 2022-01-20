@@ -31,4 +31,8 @@ class GroupRepository @Inject constructor(private val groupDao: GroupDao) {
     fun getGroup(groupId: Long): LiveData<GroupWithPersons> {
         return groupDao.getGroup(groupId)
     }
+
+    fun update(group: Group) {
+        groupDao.update(group)
+    }
 }

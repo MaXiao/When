@@ -37,29 +37,33 @@ class CreateGroupActivity : AppCompatActivity(), OnPersonClickListener {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val groupId = intent.getLongExtra(GROUP_ID, -1)
-        viewModel.configGroup(groupId)
+        if (groupId >= 0) {
+            viewModel.configGroup(groupId)
+
+            val input = binding.input
+            viewModel.group.observe(this, { group ->
+                adapter.setPeople(group.persons)
+                input.setText(group.group.name)
+            })
+        }
 
         val selectBtn = binding.addMore
         selectBtn.setOnClickListener {
             viewModel.save()
         }
 
-        viewModel.destination.observe(this, EventObserver {
-            when (it) {
-                CreateGroupViewModel.Destination.PERSON_LIST -> goToSelectMembers()
-            }
-        })
-
         viewModel.persons.observe(this, Observer { list ->
             adapter.setPeople(list)
         })
 
-        val input = binding.input
-        viewModel.group.observe(this, {group ->
-            adapter.setPeople(group.persons)
-            input.setText(group.group.name)
+        viewModel.destination.observe(this, EventObserver {
+            when (it) {
+                CreateGroupViewModel.Destination.PERSON_LIST -> goToSelectMembers()
+                CreateGroupViewModel.Destination.UPDATE_DONE -> {
+                    finish()
+                }
+            }
         })
-
     }
 
     private val selectMembers = registerForActivityResult(PersonsSelectActivityContract()) { list ->
@@ -73,7 +77,7 @@ class CreateGroupActivity : AppCompatActivity(), OnPersonClickListener {
     }
 
     override fun onItemClick(person: PersonWithCity, index: Int) {
-
+        viewModel.removeMember(person)
     }
 
     companion object {
