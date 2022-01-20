@@ -33,8 +33,9 @@ class PersonSelectionFragment : Fragment(), OnPersonClickListener {
     ): View? {
         // default to be multi-choice
         viewModel.multiChoice = arguments?.getBoolean(MULTI_CHOICE) ?: true
-//        val existingMembers: ArrayList<PersonWithCity> =
-//            arguments?.getParcelableArrayList(EXISTING_MEMBER)
+        val existingMembers: ArrayList<PersonWithCity> =
+            arguments?.getParcelableArrayList(EXISTING_MEMBER) ?: ArrayList()
+        val memberIds = existingMembers.map { member -> member.person.personId }
 
         val binding = DataBindingUtil.inflate<FragmentPersonSelectionBinding>(
             inflater,
@@ -49,9 +50,10 @@ class PersonSelectionFragment : Fragment(), OnPersonClickListener {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.people.observe(viewLifecycleOwner, Observer { people ->
-            people?.let {
-                adapter.setPeople(people)
+        viewModel.people.observe(viewLifecycleOwner, Observer { persons ->
+            persons?.let {
+                val filtered = persons.filter { p -> !memberIds.contains(p.person.personId) }
+                adapter.setPeople(filtered)
             }
         })
 

@@ -1,5 +1,6 @@
 package com.xiaoism.time.ui.main.group
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.launch
@@ -14,6 +15,7 @@ import com.xiaoism.time.model.GroupWithPersons
 import com.xiaoism.time.model.PersonWithCity
 import com.xiaoism.time.ui.main.people.OnPersonClickListener
 import com.xiaoism.time.ui.main.people.PeopleListAdapter
+import com.xiaoism.time.ui.main.people.PersonSelectionActivity
 import com.xiaoism.time.ui.main.people.PersonsSelectActivityContract
 import com.xiaoism.time.util.livedata.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
@@ -73,7 +75,7 @@ class CreateGroupActivity : AppCompatActivity(), OnPersonClickListener {
     }
 
     private fun goToSelectMembers() {
-        selectMembers.launch()
+        selectMembers.launch(Intent(this, PersonSelectionActivity::class.java))
     }
 
     override fun onItemClick(person: PersonWithCity, index: Int) {

@@ -24,9 +24,12 @@ import com.xiaoism.time.model.GroupWithPersons
 import com.xiaoism.time.model.PersonWithCity
 import androidx.compose.runtime.livedata.observeAsState
 import com.xiaoism.time.model.Group
+import com.xiaoism.time.ui.main.people.PersonSelectionActivity
+import com.xiaoism.time.ui.main.people.PersonSelectionFragment
 import com.xiaoism.time.ui.main.people.PersonsSelectActivityContract
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
 @AndroidEntryPoint
@@ -77,7 +80,8 @@ class GroupActivity : ComponentActivity() {
                     textAlign = TextAlign.Center,
                     fontSize = 30.sp,
                     modifier = Modifier
-                        .padding(vertical = 10.dp).weight(1f)
+                        .padding(vertical = 10.dp)
+                        .weight(1f)
                 )
 
                 OutlinedButton(onClick = { editGroup(group.group.groupId) }) {
@@ -139,19 +143,23 @@ class GroupActivity : ComponentActivity() {
 
     //region Methods
     private fun addPerson() {
-        selectMembers.launch()
+        val intent = Intent(this, PersonSelectionActivity::class.java)
+        intent.putExtra(PersonSelectionFragment.MULTI_CHOICE, false)
+        viewModel.group.value?.let {
+            val members = ArrayList(it.persons)
+            intent.putParcelableArrayListExtra(PersonSelectionFragment.EXISTING_MEMBER, members)
+        }
+        selectMembers.launch(intent)
     }
 
     private val selectMembers =
-        registerForActivityResult(PersonsSelectActivityContract(multiChoice = false)) { list ->
+        registerForActivityResult(PersonsSelectActivityContract()) { list ->
             list?.let {
-                Log.d("person", it.toString())
                 viewModel.addMember(it[0].person)
             }
         }
 
     private fun convertTime(mins: Int): Date {
-        Log.d("time", mins.toString())
         val hour = mins / MIN_PER_HOUR
         val min = mins % MIN_PER_HOUR
         val cal = Calendar.getInstance()
