@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
@@ -143,19 +144,20 @@ class GroupActivity : ComponentActivity() {
 
     //region Methods
     private fun addPerson() {
-        val intent = Intent(this, PersonSelectionActivity::class.java)
-        intent.putExtra(PersonSelectionFragment.MULTI_CHOICE, false)
-        viewModel.group.value?.let {
-            val members = ArrayList(it.persons)
-            intent.putParcelableArrayListExtra(PersonSelectionFragment.EXISTING_MEMBER, members)
-        }
-        selectMembers.launch(intent)
+        selectMembers.launch(
+            PersonsSelectActivityContract.PersonSelectInput(
+                false,
+                viewModel.group.value?.persons
+            )
+        )
     }
 
     private val selectMembers =
         registerForActivityResult(PersonsSelectActivityContract()) { list ->
             list?.let {
-                viewModel.addMember(it[0].person)
+                if (it.isNotEmpty()) {
+                    viewModel.addMember(it[0].person)
+                }
             }
         }
 

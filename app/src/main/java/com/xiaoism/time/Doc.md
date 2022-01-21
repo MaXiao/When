@@ -1,7 +1,6 @@
 group
-* only add person that's not in the group already
-* share to calendar
 * reorder
+* share to calendar
 
 person
 * show current time

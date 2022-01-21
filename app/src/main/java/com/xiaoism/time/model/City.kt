@@ -39,8 +39,7 @@ data class City(
     }
 
     fun getLocalTime(): String {
-        val cal = Calendar.getInstance(zone)
-        return "${cal.get(Calendar.HOUR_OF_DAY)}:${cal.get(Calendar.MINUTE)} ${cal.get(Calendar.MONTH)} ${cal.get(Calendar.DAY_OF_MONTH)}"
+        return dateFormat.format(Date())
     }
 
     fun getLocalTimeFor(date: Date): String {

@@ -75,7 +75,7 @@ class CreateGroupActivity : AppCompatActivity(), OnPersonClickListener {
     }
 
     private fun goToSelectMembers() {
-        selectMembers.launch(Intent(this, PersonSelectionActivity::class.java))
+        selectMembers.launch(PersonsSelectActivityContract.PersonSelectInput())
     }
 
     override fun onItemClick(person: PersonWithCity, index: Int) {
