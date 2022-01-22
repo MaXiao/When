@@ -20,4 +20,8 @@ class PersonRepository @Inject constructor(private val personDao: PersonDao) {
     fun delete(p: PersonWithCity) {
         personDao.delete(p.person)
     }
+
+    fun getPerson(personId: Long): LiveData<PersonWithCity> {
+        return personDao.getPerson(personId)
+    }
 }

@@ -54,6 +54,9 @@ class PeopleListFragment : Fragment(), OnPersonClickListener {
     }
 
     override fun onItemClick(person: PersonWithCity, index: Int) {
+        val intent = Intent(requireContext(), PersonActivity::class.java)
+        intent.putExtra("person", person.person.personId)
+        startActivity(intent)
     }
 
     private fun addPerson() {

@@ -15,6 +15,10 @@ interface PersonDao {
     @Query("SELECT * FROM people WHERE personId IN(:personIds)")
     fun getPersonWithIds(personIds: List<Long>): LiveData<List<PersonWithCity>>
 
+    @Transaction
+    @Query("SELECT * FROM `people` WHERE personId = :personId")
+    fun getPerson(personId: Long): LiveData<PersonWithCity>
+
     @Insert
     fun create(people: Person)
 

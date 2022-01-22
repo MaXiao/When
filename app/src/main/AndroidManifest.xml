@@ -23,6 +23,7 @@
         <activity android:name=".ui.main.group.CreateGroupActivity" />
         <activity android:name=".ui.main.people.PersonSelectionActivity" />
         <activity android:name=".ui.main.people.AddPersonActivity" />
+        <activity android:name=".ui.main.people.PersonActivity" />
 
     </application>
 

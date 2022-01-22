@@ -3,7 +3,6 @@ group
 * share to calendar
 
 person
-* show current time
 * show person
 * change name
 * change city
