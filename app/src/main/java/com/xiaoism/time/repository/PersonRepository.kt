@@ -1,6 +1,7 @@
 package com.xiaoism.time.repository
 
 import androidx.lifecycle.LiveData
+import com.xiaoism.time.model.City
 import com.xiaoism.time.model.GroupWithPersons
 import com.xiaoism.time.model.Person
 import com.xiaoism.time.model.PersonWithCity
@@ -23,5 +24,13 @@ class PersonRepository @Inject constructor(private val personDao: PersonDao) {
 
     fun getPerson(personId: Long): LiveData<PersonWithCity> {
         return personDao.getPerson(personId)
+    }
+
+    fun updateCity(person: Person, city: City) {
+        personDao.updateCity(person.personId, city.geonameId)
+    }
+
+    fun updateName(person: Person, name: String) {
+        personDao.updateName(person.personId, name)
     }
 }

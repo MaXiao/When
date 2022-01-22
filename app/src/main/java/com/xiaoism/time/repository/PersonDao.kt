@@ -2,6 +2,7 @@ package com.xiaoism.time.repository
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.xiaoism.time.model.City
 import com.xiaoism.time.model.Person
 import com.xiaoism.time.model.PersonWithCity
 
@@ -27,4 +28,10 @@ interface PersonDao {
 
     @Delete
     fun delete(p: Person)
+
+    @Query("UPDATE people SET cityId = :cityId WHERE personId = :personId")
+    fun updateCity(personId: Long, cityId: String)
+
+    @Query("UPDATE people SET cityId = :name WHERE personId = :personId")
+    fun updateName(personId: Long, name: String)
 }

@@ -3,6 +3,7 @@ package com.xiaoism.time.ui.main.people
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.OutlinedButton
@@ -14,8 +15,10 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.xiaoism.time.model.City
 import com.xiaoism.time.model.Person
 import com.xiaoism.time.model.PersonWithCity
+import com.xiaoism.time.ui.main.city.CityActivityContract
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -66,7 +69,7 @@ class PersonActivity : ComponentActivity() {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Column() {
+                    Column(modifier = Modifier.weight(1f)) {
                         Text(
                             "${city.name}, ${city.country}",
                             fontSize = 30.sp
@@ -77,7 +80,7 @@ class PersonActivity : ComponentActivity() {
                             fontSize = 20.sp
                         )
                     }
-                    OutlinedButton(onClick = { /*TODO*/ }) {
+                    OutlinedButton(onClick = { goToAddCity() }) {
                         Text("Change")
                     }
                 }
@@ -86,6 +89,16 @@ class PersonActivity : ComponentActivity() {
             Spacer(modifier = Modifier.height(10.dp))
         }
     }
+    //endregion
 
+    //region functions
+    private val getCity =
+        registerForActivityResult(CityActivityContract()) { city: City? ->
+            viewModel.updateCity(city)
+        }
+
+    private fun goToAddCity() {
+        getCity.launch()
+    }
     //endregion
 }
