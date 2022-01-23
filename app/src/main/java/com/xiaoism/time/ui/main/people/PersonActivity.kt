@@ -20,8 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xiaoism.time.model.City
-import com.xiaoism.time.model.Person
-import com.xiaoism.time.model.PersonWithCity
 import com.xiaoism.time.ui.main.city.CityActivityContract
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,77 +43,75 @@ class PersonActivity : ComponentActivity() {
     //region views
     @Composable
     private fun Content() {
-        val person by viewModel.person.observeAsState(
-            initial = PersonWithCity(
-                person = Person(
-                    name = "",
-                    cityId = ""
-                ), city = null
-            )
+        val p by viewModel.person.observeAsState(
+            initial = null
         )
-        var editingName by remember { mutableStateOf(false)}
-        var name by remember { mutableStateOf(person.person.name)}
+        var editingName by remember { mutableStateOf(false) }
+        var name by remember { mutableStateOf(p?.person?.name ?: "") }
 
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                if (editingName) {
-                    OutlinedTextField(
-                        value = name,
-                        onValueChange = {
-                            name = it
-                        },
-                        label = { Text(person.person.name) }
-                    )
-                } else {
-                    Text(
-                        person.person.name,
-                        fontSize = 30.sp
-                    )
-                }
-
-                if (editingName) {
-                    OutlinedButton(onClick = {
-                        editingName = !editingName
-                        viewModel.updateName(name)
-                    }) {
-                        Text("Save")
-                    }
-                } else {
-                    OutlinedButton(onClick = { editingName = !editingName }) {
-                        Text("Change")
-                    }
-                }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            person.city?.let { city ->
+        p?.let { person ->
+            Column(modifier = Modifier.fillMaxWidth()) {
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Column(modifier = Modifier.weight(1f)) {
+                    if (editingName) {
+                        OutlinedTextField(
+                            value = name,
+                            onValueChange = {
+                                name = it
+                            },
+                            label = { Text("name") }
+                        )
+                    } else {
                         Text(
-                            "${city.name}, ${city.country}",
+                            person.person.name,
                             fontSize = 30.sp
                         )
-                        Spacer(modifier = Modifier.height(6.dp))
-                        Text(
-                            city.getLocalTime() ?: "",
-                            fontSize = 20.sp
-                        )
                     }
-                    OutlinedButton(onClick = { goToAddCity() }) {
-                        Text("Change")
+
+                    if (editingName) {
+                        OutlinedButton(onClick = {
+                            editingName = !editingName
+                            viewModel.updateName(name)
+                        }) {
+                            Text("Save")
+                        }
+                    } else {
+                        OutlinedButton(onClick = { editingName = !editingName }) {
+                            Text("Change")
+                        }
                     }
                 }
-            }
-            Spacer(modifier = Modifier.height(10.dp))
-            OutlinedButton(onClick = { delete() }) {
-                Text("Delete")
+                Spacer(modifier = Modifier.height(16.dp))
+                person.city?.let { city ->
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                "${city.name}, ${city.country}",
+                                fontSize = 30.sp
+                            )
+                            Spacer(modifier = Modifier.height(6.dp))
+                            Text(
+                                city.getLocalTime(),
+                                fontSize = 20.sp
+                            )
+                        }
+                        OutlinedButton(onClick = { goToAddCity() }) {
+                            Text("Change")
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                OutlinedButton(onClick = { delete() }) {
+                    Text("Delete")
+                }
             }
         }
+
     }
     //endregion
 
@@ -130,8 +126,8 @@ class PersonActivity : ComponentActivity() {
     }
 
     private fun delete() {
-        finish()
         viewModel.delete()
+        finish()
     }
     //endregion
 }
