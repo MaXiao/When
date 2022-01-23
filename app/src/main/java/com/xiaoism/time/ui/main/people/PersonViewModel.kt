@@ -32,8 +32,16 @@ class PersonViewModel @Inject constructor(private val repo: PersonRepository) : 
 
     fun updateName(name: String) {
         person.value?.let { personWithCity ->
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 repo.updateName(personWithCity.person, name)
+            }
+        }
+    }
+
+    fun delete() {
+        person.value?.let {
+            viewModelScope.launch(Dispatchers.IO) {
+                repo.delete(it)
             }
         }
     }

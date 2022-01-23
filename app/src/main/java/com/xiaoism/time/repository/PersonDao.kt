@@ -32,6 +32,6 @@ interface PersonDao {
     @Query("UPDATE people SET cityId = :cityId WHERE personId = :personId")
     fun updateCity(personId: Long, cityId: String)
 
-    @Query("UPDATE people SET cityId = :name WHERE personId = :personId")
+    @Query("UPDATE people SET name = :name WHERE personId = :personId")
     fun updateName(personId: Long, name: String)
 }

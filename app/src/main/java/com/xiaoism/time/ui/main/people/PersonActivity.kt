@@ -7,11 +7,15 @@ import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.OutlinedButton
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,18 +53,40 @@ class PersonActivity : ComponentActivity() {
                 ), city = null
             )
         )
+        var editingName by remember { mutableStateOf(false)}
+        var name by remember { mutableStateOf(person.person.name)}
 
         Column(modifier = Modifier.fillMaxWidth()) {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(
-                    person.person.name,
-                    fontSize = 30.sp
-                )
-                OutlinedButton(onClick = { /*TODO*/ }) {
-                    Text("Change")
+                if (editingName) {
+                    OutlinedTextField(
+                        value = name,
+                        onValueChange = {
+                            name = it
+                        },
+                        label = { Text(person.person.name) }
+                    )
+                } else {
+                    Text(
+                        person.person.name,
+                        fontSize = 30.sp
+                    )
+                }
+
+                if (editingName) {
+                    OutlinedButton(onClick = {
+                        editingName = !editingName
+                        viewModel.updateName(name)
+                    }) {
+                        Text("Save")
+                    }
+                } else {
+                    OutlinedButton(onClick = { editingName = !editingName }) {
+                        Text("Change")
+                    }
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -85,8 +111,10 @@ class PersonActivity : ComponentActivity() {
                     }
                 }
             }
-
             Spacer(modifier = Modifier.height(10.dp))
+            OutlinedButton(onClick = { delete() }) {
+                Text("Delete")
+            }
         }
     }
     //endregion
@@ -99,6 +127,11 @@ class PersonActivity : ComponentActivity() {
 
     private fun goToAddCity() {
         getCity.launch()
+    }
+
+    private fun delete() {
+        finish()
+        viewModel.delete()
     }
     //endregion
 }
