@@ -4,10 +4,12 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.compose.ui.text.toLowerCase
 import androidx.recyclerview.widget.RecyclerView
 import com.xiaoism.time.databinding.CellPeopleBinding
 import com.xiaoism.time.model.Person
 import com.xiaoism.time.model.PersonWithCity
+import java.util.*
 
 interface OnPersonClickListener {
     fun onItemClick(person: PersonWithCity, index: Int);
@@ -40,7 +42,7 @@ class PeopleListAdapter(context: Context, val listener: OnPersonClickListener) :
     override fun getItemCount(): Int = people.size
 
     fun setPeople(people: List<PersonWithCity>) {
-        this.people = people
+        this.people = people.sortedBy { it.person.name.lowercase(Locale.getDefault()) }
         notifyDataSetChanged()
     }
 

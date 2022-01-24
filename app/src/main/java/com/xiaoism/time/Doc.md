@@ -1,15 +1,12 @@
 group
-* reorder
+* order by name
+* date picker
 * share to calendar
+* reorder
 
-person
-
-
-add clock UI
 add networking layer
 add testing
-
+add clock UI
 
 bug
-* change name added an space in front
-* delete crash person activity
+* city picker issue

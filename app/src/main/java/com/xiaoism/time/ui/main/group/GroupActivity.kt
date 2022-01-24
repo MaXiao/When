@@ -90,7 +90,7 @@ class GroupActivity : ComponentActivity() {
                 }
             }
             LazyColumn(Modifier.weight(1f)) {
-                items(group.persons) { person ->
+                items(group.persons.sortedBy { it.person.name.lowercase(Locale.getDefault()) }) { person ->
                     Row(person, date)
                     Divider(color = Color.Gray, thickness = 6.dp)
                 }
