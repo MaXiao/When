@@ -1,5 +1,4 @@
 group
-* order by name
 * date picker
 * share to calendar
 * reorder
@@ -9,4 +8,4 @@ add testing
 add clock UI
 
 bug
-* city picker issue
+* city picker issueit.person.name.lowercase(Locale.getDefault())

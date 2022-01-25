@@ -1,8 +1,10 @@
 package com.xiaoism.time.ui.main.group
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.DatePicker
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -74,6 +76,11 @@ class GroupActivity : ComponentActivity() {
         val (sliderPosition, setSliderPosition) = remember { mutableStateOf(0f) }
         val date = if (sliderTouched) convertTime(sliderPosition.roundToInt() * 5) else currentDate
 
+        val datePicker =
+            DatePickerDialog(this, { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
+                Log.d("date", "$year/$month/$dayOfMonth")
+            }, date.year, date.month, date.day)
+
         Column {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
@@ -98,6 +105,10 @@ class GroupActivity : ComponentActivity() {
 
             Slider(sliderPosition, setSliderPosition, setSliderTouched)
             Text(text = date.toString())
+            Spacer(modifier = Modifier.height(20.dp))
+            OutlinedButton(onClick = { datePicker.show() }) {
+                Text("Date")
+            }
         }
     }
 
