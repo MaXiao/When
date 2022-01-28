@@ -39,9 +39,12 @@ import kotlin.math.roundToInt
 class GroupActivity : ComponentActivity() {
     private val viewModel by viewModels<GroupViewModel>()
     private val currentDate = Date()
+    private val cal = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        cal.time = currentDate
 
         val groupId = intent.getLongExtra("group", -1)
         if (groupId >= 0) {
@@ -72,14 +75,19 @@ class GroupActivity : ComponentActivity() {
                 persons = emptyList()
             )
         )
-        val (sliderTouched, setSliderTouched) = remember { mutableStateOf(false) }
         val (sliderPosition, setSliderPosition) = remember { mutableStateOf(0f) }
-        val date = if (sliderTouched) convertTime(sliderPosition.roundToInt() * 5) else currentDate
+        val (date, setDate) = remember { mutableStateOf(cal.time) }
 
         val datePicker =
             DatePickerDialog(this, { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
                 Log.d("date", "$year/$month/$dayOfMonth")
-            }, date.year, date.month, date.day)
+                val localCal = Calendar.getInstance()
+                localCal.time = date
+                localCal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                localCal.set(Calendar.MONTH, month)
+                localCal.set(Calendar.YEAR, year)
+                setDate(localCal.time)
+            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH))
 
         Column {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
@@ -103,7 +111,7 @@ class GroupActivity : ComponentActivity() {
                 }
             }
 
-            Slider(sliderPosition, setSliderPosition, setSliderTouched)
+            Slider(sliderPosition, setSliderPosition, date, setDate)
             Text(text = date.toString())
             Spacer(modifier = Modifier.height(20.dp))
             OutlinedButton(onClick = { datePicker.show() }) {
@@ -116,13 +124,14 @@ class GroupActivity : ComponentActivity() {
     private fun Slider(
         sliderPosition: Float,
         setSliderPosition: (Float) -> Unit,
-        setSliderTouched: (Boolean) -> Unit
+        date: Date,
+        setDate: (Date) -> Unit
     ) {
         Slider(
             value = sliderPosition,
             onValueChange = {
-                setSliderTouched(true)
                 setSliderPosition(it)
+                setDate(convertTime(sliderPosition.roundToInt() * 5, date))
             },
             valueRange = 0f..(MIN_PER_DAY / 5).toFloat(),
             colors = SliderDefaults.colors(
@@ -172,10 +181,11 @@ class GroupActivity : ComponentActivity() {
             }
         }
 
-    private fun convertTime(mins: Int): Date {
+    private fun convertTime(mins: Int, inputDate: Date): Date {
         val hour = mins / MIN_PER_HOUR
         val min = mins % MIN_PER_HOUR
         val cal = Calendar.getInstance()
+        cal.time = inputDate
         cal.set(Calendar.HOUR_OF_DAY, hour)
         cal.set(Calendar.MINUTE, min)
         return cal.time
