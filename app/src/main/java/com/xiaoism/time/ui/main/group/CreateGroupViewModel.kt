@@ -21,14 +21,14 @@ class CreateGroupViewModel @Inject constructor(private val repository: GroupRepo
     val destination = MutableLiveData<Event<Destination>>()
     var name: String = ""
     val persons = MutableLiveData<List<PersonWithCity>>()
-    lateinit var group: LiveData<GroupWithPersons>
+    var group: LiveData<GroupWithPersons>? = null
 
     fun save() {
         if (name.isEmpty()) {
             return
         }
 
-        group.value?.let {
+        group?.value?.let {
             val newGroup = Group(groupId = it.group.groupId, name = name)
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
@@ -52,7 +52,7 @@ class CreateGroupViewModel @Inject constructor(private val repository: GroupRepo
     }
 
     fun removeMember(person: PersonWithCity) {
-        group.value?.let { g ->
+        group?.value?.let { g ->
             viewModelScope.launch(Dispatchers.IO) {
                 repository.removePersonFromGroup(person.person.personId, g.group.groupId)
             }

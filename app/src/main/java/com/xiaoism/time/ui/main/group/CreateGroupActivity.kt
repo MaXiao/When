@@ -43,7 +43,7 @@ class CreateGroupActivity : AppCompatActivity(), OnPersonClickListener {
             viewModel.configGroup(groupId)
 
             val input = binding.input
-            viewModel.group.observe(this, { group ->
+            viewModel.group?.observe(this, { group ->
                 adapter.setPeople(group.persons)
                 input.setText(group.group.name)
             })

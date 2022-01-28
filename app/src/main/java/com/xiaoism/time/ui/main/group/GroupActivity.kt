@@ -1,8 +1,11 @@
 package com.xiaoism.time.ui.main.group
 
 import android.app.DatePickerDialog
+import android.content.ContentValues
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.CalendarContract
 import android.util.Log
 import android.widget.DatePicker
 import androidx.activity.ComponentActivity
@@ -34,6 +37,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
+import androidx.activity.result.ActivityResultCallback
+
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import java.util.jar.Manifest
+
 
 @AndroidEntryPoint
 class GroupActivity : ComponentActivity() {
@@ -117,6 +126,9 @@ class GroupActivity : ComponentActivity() {
             OutlinedButton(onClick = { datePicker.show() }) {
                 Text("Date")
             }
+            OutlinedButton(onClick = { shareCalendarEvent(date.time) }) {
+                Text("Share")
+            }
         }
     }
 
@@ -196,7 +208,22 @@ class GroupActivity : ComponentActivity() {
         intent.putExtra(CreateGroupActivity.GROUP_ID, groupId)
         startActivity(intent)
     }
-    //endregion
+
+    private fun shareCalendarEvent(startMillis: Long) {
+        val intent = Intent(Intent.ACTION_INSERT).apply {
+            data = CalendarContract.Events.CONTENT_URI
+            putExtra(CalendarContract.Events.TITLE, "game night")
+            putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
+            putExtra(CalendarContract.EXTRA_EVENT_END_TIME, startMillis + 3000)
+//            putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com")
+        }
+
+        val packages = intent.resolveActivity(packageManager)
+        if (packages != null) {
+            startActivity(intent);
+        }
+    }
+//endregion
 
     companion object {
         const val MIN_PER_HOUR = 60
