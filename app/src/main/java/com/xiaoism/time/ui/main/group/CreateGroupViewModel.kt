@@ -43,6 +43,7 @@ class CreateGroupViewModel @Inject constructor(private val repository: GroupRepo
                 viewModelScope.launch(Dispatchers.IO) {
                     repository.createGroupAndAddMembers(name, members)
                 }
+                destination.value = Event(Destination.UPDATE_DONE)
             }
         }
     }
