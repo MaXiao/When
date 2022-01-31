@@ -41,6 +41,8 @@ import androidx.activity.result.ActivityResultCallback
 
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import androidx.compose.foundation.background
+import com.xiaoism.time.ui.main.view.ArcSlider
 import java.util.jar.Manifest
 
 
@@ -123,6 +125,7 @@ class GroupActivity : ComponentActivity() {
             Slider(sliderPosition, setSliderPosition, date, setDate)
             Text(text = date.toString())
             Spacer(modifier = Modifier.height(20.dp))
+            ArcSlider(modifier = Modifier.height(400.dp).fillMaxWidth().background(Color.Gray.copy(alpha = 0.1f)))
             OutlinedButton(onClick = { datePicker.show() }) {
                 Text("Date")
             }
