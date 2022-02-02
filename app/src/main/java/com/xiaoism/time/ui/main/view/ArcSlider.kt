@@ -17,8 +17,7 @@ import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
-import java.lang.Math.*
-import java.lang.Math.sin
+import java.lang.Math.toRadians
 import kotlin.math.*
 
 @Composable
@@ -32,7 +31,7 @@ fun ArcSlider(modifier: Modifier = Modifier) {
             offsetX = change.position.x
             offsetY = change.position.y
 
-            Log.d("canvas", change.position.toString())
+//            Log.d("canvas", change.position.toString())
         }
         detectTapGestures { offset ->
             Log.d("canvas", offset.toString())
@@ -41,11 +40,11 @@ fun ArcSlider(modifier: Modifier = Modifier) {
         }
     }) {
         val (indicatorX, indicatorY) = calculateIndicatorPosition(offsetX, offsetY)
-        Log.d("updated", indicatorY.toString())
+//        Log.d("updated", indicatorY.toString())
         drawArc(
             color = Color.Blue,
-            startAngle = 180f,
-            sweepAngle = 180f,
+            startAngle = 180f + angleMargin,
+            sweepAngle = 180f - angleMargin * 2,
             useCenter = false,
             style = Stroke(width = 2.dp.toPx()),
             topLeft = Offset(10.dp.toPx(), 40.dp.toPx()),
@@ -69,10 +68,15 @@ private fun radiusForPoint(x: Float, y: Float): Float {
 
 private fun DrawScope.calculateIndicatorPosition(offsetX: Float, offsetY: Float): Offset {
     val dragXOnCanvas = offsetX - horizontalCenter
-    val dragYOnCanvas = Math.min(offsetY - verticalCenter, 0f)
+    val dragYOnCanvas =
+        max(
+            abs(offsetY - verticalCenter),
+            arcRadius * sin(toRadians(angleMargin.toDouble())).toFloat()
+        )
     val radius = radiusForPoint(dragXOnCanvas, dragYOnCanvas)
     val angle = acos(dragXOnCanvas / radius)
-    val adjustedAngle = if (dragYOnCanvas < 0) angle * -1 else angle
+    val adjustedAngle = -angle
+    Log.d("angle", Math.toDegrees(adjustedAngle.toDouble()).toString())
     val xOnCircle = arcRadius * cos(adjustedAngle)
     val yOnCircle = arcRadius * sin(adjustedAngle)
     return Offset(xOnCircle.toFloat(), yOnCircle.toFloat())
@@ -81,3 +85,4 @@ private fun DrawScope.calculateIndicatorPosition(offsetX: Float, offsetY: Float)
 private val DrawScope.arcRadius get() = size.width / 2 - 10.dp.toPx()
 private val DrawScope.horizontalCenter get() = size.width / 2
 private val DrawScope.verticalCenter get() = arcRadius + 40.dp.toPx()
+private val DrawScope.angleMargin get() = 20f
