@@ -125,7 +125,15 @@ class GroupActivity : ComponentActivity() {
             Slider(sliderPosition, setSliderPosition, date, setDate)
             Text(text = date.toString())
             Spacer(modifier = Modifier.height(20.dp))
-            ArcSlider(modifier = Modifier.height(400.dp).fillMaxWidth().background(Color.Gray.copy(alpha = 0.1f)))
+            ArcSlider(
+                modifier = Modifier
+                    .height(400.dp)
+                    .fillMaxWidth()
+                    .background(Color.Gray.copy(alpha = 0.1f))
+            ) { ratio ->
+                val date = convertTime(((MIN_PER_DAY / 5) * ratio).roundToInt() * 5, date)
+                Log.d("converted", date.toString())
+            }
             OutlinedButton(onClick = { datePicker.show() }) {
                 Text("Date")
             }

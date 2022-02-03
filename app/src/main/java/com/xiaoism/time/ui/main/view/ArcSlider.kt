@@ -21,7 +21,7 @@ import java.lang.Math.toRadians
 import kotlin.math.*
 
 @Composable
-fun ArcSlider(modifier: Modifier = Modifier) {
+fun ArcSlider(modifier: Modifier = Modifier, onValueChanged: (Float) -> Unit) {
     var offsetX by remember { mutableStateOf(0f) }
     var offsetY by remember { mutableStateOf(0f) }
 
@@ -39,12 +39,20 @@ fun ArcSlider(modifier: Modifier = Modifier) {
             offsetY = offset.y
         }
     }) {
-        val (indicatorX, indicatorY) = calculateIndicatorPosition(offsetX, offsetY)
-//        Log.d("updated", indicatorY.toString())
+        val angle = calculateIndicatorPosition(offsetX, offsetY)
+        val indicatorX = arcRadius * cos(angle)
+        val indicatorY = arcRadius * sin(angle)
+        val startAngle = 180f + angleMargin
+        val span = 180f - angleMargin * 2
+        val indicatorDegree = Math.toDegrees(angle.toDouble()) + 360f
+        val ratio = (indicatorDegree - startAngle) / span
+
+        onValueChanged(ratio.toFloat())
+
         drawArc(
             color = Color.Blue,
-            startAngle = 180f + angleMargin,
-            sweepAngle = 180f - angleMargin * 2,
+            startAngle = startAngle,
+            sweepAngle = span,
             useCenter = false,
             style = Stroke(width = 2.dp.toPx()),
             topLeft = Offset(10.dp.toPx(), 40.dp.toPx()),
@@ -66,7 +74,7 @@ private fun radiusForPoint(x: Float, y: Float): Float {
     return sqrt(x.pow(2) + y.pow(2)).toFloat()
 }
 
-private fun DrawScope.calculateIndicatorPosition(offsetX: Float, offsetY: Float): Offset {
+private fun DrawScope.calculateIndicatorPosition(offsetX: Float, offsetY: Float): Float {
     val dragXOnCanvas = offsetX - horizontalCenter
     val dragYOnCanvas =
         max(
@@ -76,10 +84,8 @@ private fun DrawScope.calculateIndicatorPosition(offsetX: Float, offsetY: Float)
     val radius = radiusForPoint(dragXOnCanvas, dragYOnCanvas)
     val angle = acos(dragXOnCanvas / radius)
     val adjustedAngle = -angle
-    Log.d("angle", Math.toDegrees(adjustedAngle.toDouble()).toString())
-    val xOnCircle = arcRadius * cos(adjustedAngle)
-    val yOnCircle = arcRadius * sin(adjustedAngle)
-    return Offset(xOnCircle.toFloat(), yOnCircle.toFloat())
+//    Log.d("angle", Math.toDegrees(adjustedAngle.toDouble()).toString())
+    return adjustedAngle
 }
 
 private val DrawScope.arcRadius get() = size.width / 2 - 10.dp.toPx()
