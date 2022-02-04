@@ -129,7 +129,7 @@ class GroupActivity : ComponentActivity() {
                 modifier = Modifier
                     .height(400.dp)
                     .fillMaxWidth()
-                    .background(Color.Gray.copy(alpha = 0.1f))
+                    .background(Color.Gray.copy(alpha = 0.1f)), value = 0.5f
             ) { ratio ->
                 val date = convertTime(((MIN_PER_DAY / 5) * ratio).roundToInt() * 5, date)
                 Log.d("converted", date.toString())

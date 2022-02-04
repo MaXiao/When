@@ -16,14 +16,28 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import java.lang.Math.toRadians
 import kotlin.math.*
 
 @Composable
-fun ArcSlider(modifier: Modifier = Modifier, onValueChanged: (Float) -> Unit) {
-    var offsetX by remember { mutableStateOf(0f) }
-    var offsetY by remember { mutableStateOf(0f) }
+fun ArcSlider(modifier: Modifier = Modifier, value: Float, onValueChanged: (Float) -> Unit) {
+    val configuration = LocalConfiguration.current
+    val density = LocalContext.current.resources.displayMetrics.density
+    val screenWidth = configuration.screenWidthDp * density
+    val radius = screenWidth / 2 - 10 * density
+    val startAngle = 180f + angleMargin
+    val span = 180f - angleMargin * 2
+    val angle = calculateIndicatorAngle(startAngle, span, value)
+    val x = radius * cos(angle) + screenWidth / 2
+    val y = radius * sin(angle) + radius + 40 * density
+    Log.e("initial arc", "$angle, $x, $y")
+
+    var offsetX by remember { mutableStateOf(x) }
+    var offsetY by remember { mutableStateOf(y) }
 
     Canvas(modifier = modifier.pointerInput(Unit) {
         detectDragGestures { change, dragAmount ->
@@ -40,10 +54,9 @@ fun ArcSlider(modifier: Modifier = Modifier, onValueChanged: (Float) -> Unit) {
         }
     }) {
         val angle = calculateIndicatorPosition(offsetX, offsetY)
+        Log.e("arc", "$angle, $offsetX, $offsetY")
         val indicatorX = arcRadius * cos(angle)
         val indicatorY = arcRadius * sin(angle)
-        val startAngle = 180f + angleMargin
-        val span = 180f - angleMargin * 2
         val indicatorDegree = Math.toDegrees(angle.toDouble()) + 360f
         val ratio = (indicatorDegree - startAngle) / span
 
@@ -88,7 +101,11 @@ private fun DrawScope.calculateIndicatorPosition(offsetX: Float, offsetY: Float)
     return adjustedAngle
 }
 
+private fun calculateIndicatorAngle(startAngle: Float, span: Float, percent: Float): Float {
+    return toRadians(span * percent.toDouble() + startAngle.toDouble()).toFloat()
+}
+
 private val DrawScope.arcRadius get() = size.width / 2 - 10.dp.toPx()
 private val DrawScope.horizontalCenter get() = size.width / 2
 private val DrawScope.verticalCenter get() = arcRadius + 40.dp.toPx()
-private val DrawScope.angleMargin get() = 20f
+private val angleMargin get() = 20f
