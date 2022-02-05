@@ -129,10 +129,11 @@ class GroupActivity : ComponentActivity() {
                 modifier = Modifier
                     .height(400.dp)
                     .fillMaxWidth()
-                    .background(Color.Gray.copy(alpha = 0.1f)), value = 0.5f
+                    .background(Color.Gray.copy(alpha = 0.1f)), value = 0.3f
             ) { ratio ->
+                val mins = ((MIN_PER_DAY / 5) * ratio).roundToInt() * 5;
                 val date = convertTime(((MIN_PER_DAY / 5) * ratio).roundToInt() * 5, date)
-                Log.d("converted", date.toString())
+                setDate(date)
             }
             OutlinedButton(onClick = { datePicker.show() }) {
                 Text("Date")
@@ -211,6 +212,7 @@ class GroupActivity : ComponentActivity() {
         cal.time = inputDate
         cal.set(Calendar.HOUR_OF_DAY, hour)
         cal.set(Calendar.MINUTE, min)
+        cal.set(Calendar.SECOND, 0)
         return cal.time
     }
 

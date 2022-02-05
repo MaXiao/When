@@ -20,6 +20,7 @@ import java.lang.Math.toRadians
 import kotlin.math.*
 
 private const val hMargin = 10f
+private const val vMargin = 40f
 private const val angleMargin = 20f
 
 @Composable
@@ -28,12 +29,12 @@ fun ArcSlider(modifier: Modifier = Modifier, value: Float, onValueChanged: (Floa
     val density = LocalContext.current.resources.displayMetrics.density
     val screenWidth = configuration.screenWidthDp * density
     val arcRadius = screenWidth / 2 - hMargin * density
-    val horizontalCenter  = screenWidth / 2
-    val verticalCenter = arcRadius + 40 * density
+    val horizontalCenter = screenWidth / 2
+    val verticalCenter = arcRadius + vMargin * density
     val startAngle = 180f + angleMargin
     val span = 180f - angleMargin * 2
 
-    var angle by remember { mutableStateOf(calculateIndicatorAngle(startAngle, span, value))}
+    var angle by remember { mutableStateOf(calculateIndicatorAngle(startAngle, span, value)) }
 
     Canvas(modifier = modifier.pointerInput(Unit) {
         detectDragGestures { change, _ ->
@@ -52,9 +53,9 @@ fun ArcSlider(modifier: Modifier = Modifier, value: Float, onValueChanged: (Floa
     }) {
         val indicatorX = arcRadius * cos(angle)
         val indicatorY = arcRadius * sin(angle)
-        val indicatorDegree = Math.toDegrees(angle.toDouble()) + 360f
+        val indicatorDegree = Math.toDegrees(angle.toDouble())
         val ratio = (indicatorDegree - startAngle) / span
-
+        Log.e("render", ratio.toString())
         onValueChanged(ratio.toFloat())
 
         drawArc(
@@ -63,15 +64,15 @@ fun ArcSlider(modifier: Modifier = Modifier, value: Float, onValueChanged: (Floa
             sweepAngle = span,
             useCenter = false,
             style = Stroke(width = 2.dp.toPx()),
-            topLeft = Offset(10.dp.toPx(), 40.dp.toPx()),
+            topLeft = Offset(hMargin.dp.toPx(), vMargin.dp.toPx()),
             size = Size(arcRadius * 2, arcRadius * 2)
         )
 
         translate(indicatorX, indicatorY) {
             drawCircle(
                 color = Color.Magenta.copy(alpha = 0.4f),
-                radius = 10.dp.toPx(),
-                center = Offset(x = size.width / 2f, y = arcRadius + 40.dp.toPx()),
+                radius = hMargin.dp.toPx(),
+                center = Offset(x = size.width / 2f, y = arcRadius + vMargin.dp.toPx()),
                 style = Stroke(width = 6.dp.toPx())
             )
         }
