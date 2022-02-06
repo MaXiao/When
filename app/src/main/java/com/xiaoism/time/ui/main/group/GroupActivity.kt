@@ -44,6 +44,8 @@ import androidx.activity.result.contract.ActivityResultContracts.RequestPermissi
 import androidx.compose.foundation.background
 import com.xiaoism.time.ui.main.view.ArcSlider
 import java.util.jar.Manifest
+import kotlin.math.max
+import kotlin.math.min
 
 
 @AndroidEntryPoint
@@ -131,8 +133,10 @@ class GroupActivity : ComponentActivity() {
                     .fillMaxWidth()
                     .background(Color.Gray.copy(alpha = 0.1f)), value = 0.3f
             ) { ratio ->
-                val mins = ((MIN_PER_DAY / 5) * ratio).roundToInt() * 5;
-                val date = convertTime(((MIN_PER_DAY / 5) * ratio).roundToInt() * 5, date)
+                val mins = ((MIN_PER_DAY / 5) * ratio).roundToInt() * 5
+                // end of time picker is exclusive, since it goes to next day
+                val adjustedMins = if (mins == MIN_PER_DAY) mins - 5 else mins
+                val date = convertTime(adjustedMins, date)
                 setDate(date)
             }
             OutlinedButton(onClick = { datePicker.show() }) {

@@ -34,7 +34,7 @@ fun ArcSlider(modifier: Modifier = Modifier, value: Float, onValueChanged: (Floa
     val startAngle = 180f + angleMargin
     val span = 180f - angleMargin * 2
 
-    var angle by remember { mutableStateOf(calculateIndicatorAngle(startAngle, span, value)) }
+    var angle by remember { mutableStateOf(calculateIndicatorAngleByPercent(startAngle, span, value)) }
 
     Canvas(modifier = modifier.pointerInput(Unit) {
         detectDragGestures { change, _ ->
@@ -45,7 +45,7 @@ fun ArcSlider(modifier: Modifier = Modifier, value: Float, onValueChanged: (Floa
                     abs(change.position.y - verticalCenter),
                     arcRadius * sin(toRadians(angleMargin.toDouble())).toFloat()
                 )
-            angle = calculateIndicatorPosition(dragXOnCanvas, dragYOnCanvas)
+            angle = calculateIndicatorAngleByPosition(dragXOnCanvas, dragYOnCanvas)
         }
         detectTapGestures { offset ->
             Log.d("canvas", offset.toString())
@@ -55,8 +55,8 @@ fun ArcSlider(modifier: Modifier = Modifier, value: Float, onValueChanged: (Floa
         val indicatorY = arcRadius * sin(angle)
         val indicatorDegree = Math.toDegrees(angle.toDouble())
         val ratio = (indicatorDegree - startAngle) / span
-        Log.e("render", ratio.toString())
-        onValueChanged(ratio.toFloat())
+        Log.e("render", "$indicatorDegree, $ratio")
+        onValueChanged(min(max(ratio.toFloat(), 0f), 1f))
 
         drawArc(
             color = Color.Blue,
@@ -83,13 +83,13 @@ private fun radiusForPoint(x: Float, y: Float): Float {
     return sqrt(x.pow(2) + y.pow(2))
 }
 
-private fun calculateIndicatorPosition(x: Float, y: Float): Float {
+private fun calculateIndicatorAngleByPosition(x: Float, y: Float): Float {
     val radius = radiusForPoint(x, y)
     val angle = acos(x / radius)
-    return -angle
+    return 2 * PI.toFloat() - angle
 }
 
-private fun calculateIndicatorAngle(startAngle: Float, span: Float, percent: Float): Float {
+private fun calculateIndicatorAngleByPercent(startAngle: Float, span: Float, percent: Float): Float {
     return toRadians(span * percent.toDouble() + startAngle.toDouble()).toFloat()
 }
 

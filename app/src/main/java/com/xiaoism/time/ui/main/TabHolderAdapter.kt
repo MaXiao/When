@@ -14,8 +14,8 @@ class TabHolderAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> PeopleListFragment()
-            1 -> GroupListFragment()
+            0 -> GroupListFragment()
+            1 -> PeopleListFragment()
             else -> Fragment()
         }
     }
