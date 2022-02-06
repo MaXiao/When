@@ -41,6 +41,10 @@ import androidx.activity.result.ActivityResultCallback
 
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import com.xiaoism.time.ui.main.view.ArcSlider
 import java.util.jar.Manifest
@@ -90,6 +94,14 @@ class GroupActivity : ComponentActivity() {
         )
         val (sliderPosition, setSliderPosition) = remember { mutableStateOf(0f) }
         val (date, setDate) = remember { mutableStateOf(cal.time) }
+        var backgroundChanged = remember { mutableStateOf(false) }
+        val color by animateColorAsState(
+            if (backgroundChanged.value) Color.Yellow else Color.Gray,
+            animationSpec = tween(
+                durationMillis = 1000
+            )
+
+        )
 
         val datePicker =
             DatePickerDialog(this, { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
@@ -131,7 +143,7 @@ class GroupActivity : ComponentActivity() {
                 modifier = Modifier
                     .height(400.dp)
                     .fillMaxWidth()
-                    .background(Color.Gray.copy(alpha = 0.1f)), value = 0.3f
+                    .background(color.copy(alpha = 0.1f)), value = 0.3f
             ) { ratio ->
                 val mins = ((MIN_PER_DAY / 5) * ratio).roundToInt() * 5
                 // end of time picker is exclusive, since it goes to next day
