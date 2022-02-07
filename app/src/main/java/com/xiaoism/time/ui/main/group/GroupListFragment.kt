@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,9 +45,14 @@ class GroupListFragment : Fragment() {
     ): View? {
         return ComposeView(requireContext()).apply {
             setContent {
-                Scaffold(floatingActionButton = { createBtn() }, content = { listContent() })
+                GroupListContent()
             }
         }
+    }
+
+    @Composable
+    fun GroupListContent() {
+        Scaffold(floatingActionButton = { createBtn() }, content = { listContent() })
     }
 
     @Composable
@@ -66,7 +72,7 @@ class GroupListFragment : Fragment() {
         val onClick = {
             createGroup()
         }
-        FloatingActionButton(onClick = onClick) {
+        FloatingActionButton(modifier = Modifier.testTag("addButton"), onClick = onClick) {
             Icon(Icons.Filled.Add, "")
         }
     }
@@ -75,6 +81,7 @@ class GroupListFragment : Fragment() {
     private fun groupRow(group: GroupWithPersons) {
         Row(
             modifier = Modifier
+                .testTag("groupRow")
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp, vertical = 6.dp)
                 .clickable { onItemClick(group) },

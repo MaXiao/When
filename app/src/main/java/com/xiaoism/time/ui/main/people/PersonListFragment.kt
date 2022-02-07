@@ -18,7 +18,7 @@ import com.xiaoism.time.model.PersonWithCity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PeopleListFragment : Fragment(), OnPersonClickListener {
+class PersonListFragment : Fragment(), OnPersonClickListener {
     private val viewModel by viewModels<PeopleListViewModel>()
 
     override fun onCreateView(
