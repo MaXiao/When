@@ -2,13 +2,16 @@ package com.xiaoism.time.ui.main.view
 
 import android.util.Log
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.input.pointer.consumeAllChanges
@@ -34,23 +37,41 @@ fun ArcSlider(modifier: Modifier = Modifier, value: Float, onValueChanged: (Floa
     val startAngle = 180f + angleMargin
     val span = 180f - angleMargin * 2
 
-    var angle by remember { mutableStateOf(calculateIndicatorAngleByPercent(startAngle, span, value)) }
+    var angle by remember {
+        mutableStateOf(
+            calculateIndicatorAngleByPercent(
+                startAngle,
+                span,
+                value
+            )
+        )
+    }
+    val radial = Brush.radialGradient(
+        0.0f to Color(31, 80, 255, 255),
+        0.56f to Color(18, 216, 250, 56),
+        1.0f to Color(184, 255, 166, 0),
+        center = Offset(horizontalCenter, verticalCenter),
+        radius = arcRadius,
+        tileMode = TileMode.Clamp
+    )
 
-    Canvas(modifier = modifier.pointerInput(Unit) {
-        detectDragGestures { change, _ ->
-            change.consumeAllChanges()
-            val dragXOnCanvas = change.position.x - horizontalCenter
-            val dragYOnCanvas =
-                max(
-                    abs(change.position.y - verticalCenter),
-                    arcRadius * sin(toRadians(angleMargin.toDouble())).toFloat()
-                )
-            angle = calculateIndicatorAngleByPosition(dragXOnCanvas, dragYOnCanvas)
-        }
-        detectTapGestures { offset ->
-            Log.d("canvas", offset.toString())
-        }
-    }) {
+    Canvas(modifier = modifier
+        .background(radial)
+        .pointerInput(Unit) {
+            detectDragGestures { change, _ ->
+                change.consumeAllChanges()
+                val dragXOnCanvas = change.position.x - horizontalCenter
+                val dragYOnCanvas =
+                    max(
+                        abs(change.position.y - verticalCenter),
+                        arcRadius * sin(toRadians(angleMargin.toDouble())).toFloat()
+                    )
+                angle = calculateIndicatorAngleByPosition(dragXOnCanvas, dragYOnCanvas)
+            }
+            detectTapGestures { offset ->
+                Log.d("canvas", offset.toString())
+            }
+        }) {
         val indicatorX = arcRadius * cos(angle)
         val indicatorY = arcRadius * sin(angle)
         val indicatorDegree = Math.toDegrees(angle.toDouble())
@@ -89,7 +110,11 @@ private fun calculateIndicatorAngleByPosition(x: Float, y: Float): Float {
     return 2 * PI.toFloat() - angle
 }
 
-private fun calculateIndicatorAngleByPercent(startAngle: Float, span: Float, percent: Float): Float {
+private fun calculateIndicatorAngleByPercent(
+    startAngle: Float,
+    span: Float,
+    percent: Float
+): Float {
     return toRadians(span * percent.toDouble() + startAngle.toDouble()).toFloat()
 }
 
