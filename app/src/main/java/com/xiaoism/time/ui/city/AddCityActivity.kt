@@ -1,23 +1,20 @@
-package com.xiaoism.time.ui.main.city
+package com.xiaoism.time.ui.city
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.xiaoism.time.R
 import com.xiaoism.time.databinding.FragmentCityBinding
 import com.xiaoism.time.model.City
-import com.xiaoism.time.ui.main.MainViewModel
+import com.xiaoism.time.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

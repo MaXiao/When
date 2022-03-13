@@ -1,8 +1,7 @@
-package com.xiaoism.time.ui.main.people
+package com.xiaoism.time.ui.people
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xiaoism.time.R
 import com.xiaoism.time.databinding.FragmentPersonBinding
-import com.xiaoism.time.model.Person
 import com.xiaoism.time.model.PersonWithCity
 import dagger.hilt.android.AndroidEntryPoint
 

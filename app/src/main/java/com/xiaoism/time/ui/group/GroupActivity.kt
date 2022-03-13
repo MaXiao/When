@@ -1,17 +1,13 @@
-package com.xiaoism.time.ui.main.group
+package com.xiaoism.time.ui.group
 
 import android.app.DatePickerDialog
-import android.content.ContentValues
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
 import android.util.Log
 import android.widget.DatePicker
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,26 +26,15 @@ import com.xiaoism.time.model.GroupWithPersons
 import com.xiaoism.time.model.PersonWithCity
 import androidx.compose.runtime.livedata.observeAsState
 import com.xiaoism.time.model.Group
-import com.xiaoism.time.ui.main.people.PersonSelectionActivity
-import com.xiaoism.time.ui.main.people.PersonSelectionFragment
-import com.xiaoism.time.ui.main.people.PersonsSelectActivityContract
+import com.xiaoism.time.ui.people.PersonsSelectActivityContract
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
-import androidx.activity.result.ActivityResultCallback
 
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import com.xiaoism.time.ui.main.view.ArcSlider
-import java.util.jar.Manifest
-import kotlin.math.max
-import kotlin.math.min
+import com.xiaoism.time.ui.view.ArcSlider
 
 
 @AndroidEntryPoint

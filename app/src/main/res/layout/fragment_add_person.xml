@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.xiaoism.time.ui.main.people.AddPersonViewModel" />
+            type="com.xiaoism.time.ui.people.AddPersonViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

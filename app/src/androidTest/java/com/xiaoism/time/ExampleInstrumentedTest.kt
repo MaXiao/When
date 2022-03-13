@@ -3,12 +3,10 @@ package com.xiaoism.time
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.performClick
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.xiaoism.time.ui.main.TabHolderActivity
-import com.xiaoism.time.ui.main.group.GroupListFragment
+import com.xiaoism.time.ui.TabHolderActivity
 
 import org.junit.Test
 import org.junit.runner.RunWith

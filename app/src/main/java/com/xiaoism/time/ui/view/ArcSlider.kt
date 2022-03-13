@@ -1,4 +1,4 @@
-package com.xiaoism.time.ui.main.view
+package com.xiaoism.time.ui.view
 
 import android.util.Log
 import androidx.compose.foundation.Canvas

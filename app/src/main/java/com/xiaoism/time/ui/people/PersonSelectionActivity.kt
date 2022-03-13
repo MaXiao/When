@@ -1,13 +1,9 @@
-package com.xiaoism.time.ui.main.people
+package com.xiaoism.time.ui.people
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.xiaoism.time.R
-import com.xiaoism.time.model.Person
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

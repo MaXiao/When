@@ -1,9 +1,6 @@
-package com.xiaoism.time.ui.main.group
+package com.xiaoism.time.ui.group
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -11,12 +8,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xiaoism.time.R
 import com.xiaoism.time.databinding.ActivityCreateGroupBinding
-import com.xiaoism.time.model.GroupWithPersons
 import com.xiaoism.time.model.PersonWithCity
-import com.xiaoism.time.ui.main.people.OnPersonClickListener
-import com.xiaoism.time.ui.main.people.PeopleListAdapter
-import com.xiaoism.time.ui.main.people.PersonSelectionActivity
-import com.xiaoism.time.ui.main.people.PersonsSelectActivityContract
+import com.xiaoism.time.ui.people.OnPersonClickListener
+import com.xiaoism.time.ui.people.PeopleListAdapter
+import com.xiaoism.time.ui.people.PersonsSelectActivityContract
 import com.xiaoism.time.util.livedata.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
 

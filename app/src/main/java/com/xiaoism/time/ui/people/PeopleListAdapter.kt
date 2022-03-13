@@ -1,10 +1,8 @@
-package com.xiaoism.time.ui.main.people
+package com.xiaoism.time.ui.people
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.compose.ui.text.toLowerCase
 import androidx.recyclerview.widget.RecyclerView
 import com.xiaoism.time.databinding.CellPeopleBinding
 import com.xiaoism.time.model.Person

@@ -1,10 +1,9 @@
-package com.xiaoism.time.ui.main.people
+package com.xiaoism.time.ui.people
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xiaoism.time.model.City
-import com.xiaoism.time.model.Person
 import com.xiaoism.time.model.PersonWithCity
 import com.xiaoism.time.repository.PersonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

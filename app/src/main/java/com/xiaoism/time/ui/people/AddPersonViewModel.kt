@@ -1,13 +1,9 @@
-package com.xiaoism.time.ui.main.people
+package com.xiaoism.time.ui.people
 
-import android.app.Application
-import android.util.Log
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.xiaoism.time.model.City
 import com.xiaoism.time.model.Person
 import com.xiaoism.time.repository.PersonRepository
-import com.xiaoism.time.repository.TimeDatabase
 import com.xiaoism.time.util.livedata.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

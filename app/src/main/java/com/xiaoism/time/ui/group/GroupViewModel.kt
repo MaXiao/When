@@ -1,9 +1,8 @@
-package com.xiaoism.time.ui.main.group
+package com.xiaoism.time.ui.group
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.xiaoism.time.model.Group
 import com.xiaoism.time.model.GroupWithPersons
 import com.xiaoism.time.model.Person
 import com.xiaoism.time.repository.GroupRepository

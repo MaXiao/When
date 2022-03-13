@@ -1,4 +1,4 @@
-package com.xiaoism.time.ui.main.group
+package com.xiaoism.time.ui.group
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

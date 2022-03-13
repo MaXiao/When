@@ -1,10 +1,9 @@
-package com.xiaoism.time.ui.main.people
+package com.xiaoism.time.ui.people
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContract
-import com.xiaoism.time.model.Person
 import com.xiaoism.time.model.PersonWithCity
 
 class PersonsSelectActivityContract :

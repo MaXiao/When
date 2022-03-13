@@ -1,4 +1,4 @@
-package com.xiaoism.time.ui.main
+package com.xiaoism.time.ui
 
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity

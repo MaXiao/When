@@ -1,9 +1,7 @@
-package com.xiaoism.time.ui.main.people
+package com.xiaoism.time.ui.people
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.launch
 import androidx.activity.viewModels
@@ -23,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xiaoism.time.model.City
-import com.xiaoism.time.ui.main.city.CityActivityContract
+import com.xiaoism.time.ui.city.CityActivityContract
 import com.xiaoism.time.util.livedata.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
 

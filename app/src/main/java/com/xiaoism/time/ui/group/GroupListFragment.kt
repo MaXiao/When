@@ -1,8 +1,7 @@
-package com.xiaoism.time.ui.main.group
+package com.xiaoism.time.ui.group
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,13 +23,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 
-import com.xiaoism.time.model.Group
 import com.xiaoism.time.model.GroupWithPersons
 import dagger.hilt.android.AndroidEntryPoint
 

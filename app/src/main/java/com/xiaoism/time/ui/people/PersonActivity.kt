@@ -1,4 +1,4 @@
-package com.xiaoism.time.ui.main.people
+package com.xiaoism.time.ui.people
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xiaoism.time.model.City
-import com.xiaoism.time.ui.main.city.CityActivityContract
+import com.xiaoism.time.ui.city.CityActivityContract
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

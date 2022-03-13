@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.main.TabHolderActivity" android:exported="true">
+        <activity android:name=".ui.TabHolderActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,12 +18,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.main.city.AddCityActivity" />
-        <activity android:name=".ui.main.group.GroupActivity" />
-        <activity android:name=".ui.main.group.CreateGroupActivity" />
-        <activity android:name=".ui.main.people.PersonSelectionActivity" />
-        <activity android:name=".ui.main.people.AddPersonActivity" />
-        <activity android:name=".ui.main.people.PersonActivity" />
+        <activity android:name=".ui.city.AddCityActivity" />
+        <activity android:name=".ui.group.GroupActivity" />
+        <activity android:name=".ui.group.CreateGroupActivity" />
+        <activity android:name=".ui.people.PersonSelectionActivity" />
+        <activity android:name=".ui.people.AddPersonActivity" />
+        <activity android:name=".ui.people.PersonActivity" />
 
     </application>
 

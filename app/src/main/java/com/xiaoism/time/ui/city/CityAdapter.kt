@@ -1,4 +1,4 @@
-package com.xiaoism.time.ui.main.city
+package com.xiaoism.time.ui.city
 
 import android.content.Context
 import android.view.LayoutInflater

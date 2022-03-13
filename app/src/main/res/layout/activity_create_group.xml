@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.xiaoism.time.ui.main.group.CreateGroupViewModel" />
+            type="com.xiaoism.time.ui.group.CreateGroupViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
