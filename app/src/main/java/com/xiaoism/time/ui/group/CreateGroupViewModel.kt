@@ -19,31 +19,29 @@ import javax.inject.Inject
 class CreateGroupViewModel @Inject constructor(private val repository: GroupRepository) :
     ViewModel() {
     val destination = MutableLiveData<Event<Destination>>()
-    var name: String = ""
+    val name = MutableLiveData("")
     val persons = MutableLiveData<List<PersonWithCity>>()
     var group: LiveData<GroupWithPersons>? = null
 
     fun save() {
-        if (name.isEmpty()) {
-            return
-        }
+        name.value?.let { name ->
+            group?.value?.let {
+                val newGroup = Group(groupId = it.group.groupId, name = name)
+                viewModelScope.launch {
+                    withContext(Dispatchers.IO) {
+                        repository.update(newGroup)
 
-        group?.value?.let {
-            val newGroup = Group(groupId = it.group.groupId, name = name)
-            viewModelScope.launch {
-                withContext(Dispatchers.IO) {
-                    repository.update(newGroup)
-
+                    }
+                    destination.value = Event(Destination.UPDATE_DONE)
                 }
-                destination.value = Event(Destination.UPDATE_DONE)
-            }
-        } ?: run {
-            persons.value?.let { list ->
-                val members = list.map { p -> p.person }
-                viewModelScope.launch(Dispatchers.IO) {
-                    repository.createGroupAndAddMembers(name, members)
+            } ?: run {
+                persons.value?.let { list ->
+                    val members = list.map { p -> p.person }
+                    viewModelScope.launch(Dispatchers.IO) {
+                        repository.createGroupAndAddMembers(name, members)
+                    }
+                    destination.value = Event(Destination.UPDATE_DONE)
                 }
-                destination.value = Event(Destination.UPDATE_DONE)
             }
         }
     }
@@ -63,8 +61,8 @@ class CreateGroupViewModel @Inject constructor(private val repository: GroupRepo
         }
     }
 
-    fun updateName(s: CharSequence, start: Int, before: Int, count: Int) {
-        name = s.toString()
+    fun updateName(input: String) {
+        name.value = input
     }
 
     fun updateMembers(list: List<PersonWithCity>) {
@@ -73,6 +71,13 @@ class CreateGroupViewModel @Inject constructor(private val repository: GroupRepo
 
     fun configGroup(groupId: Long) {
         group = repository.getGroup(groupId)
+    }
+
+    fun updateData(group: GroupWithPersons?) {
+        group?.let {
+            name.value = it.group.name
+            persons.value = it.persons
+        }
     }
 
     enum class Destination {
