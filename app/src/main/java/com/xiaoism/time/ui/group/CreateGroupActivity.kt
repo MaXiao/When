@@ -58,15 +58,11 @@ class CreateGroupActivity : AppCompatActivity() {
     private fun Content(viewModel: CreateGroupViewModel) {
         val persons by viewModel.persons.observeAsState(initial = emptyList())
         val name by viewModel.name.observeAsState(initial = "")
+        val group = viewModel.group?.observeAsState()?.value
 
-        viewModel.group?.let {
-            val group by it.observeAsState()
-
-            LaunchedEffect(group) {
-                viewModel.updateData(group)
-            }
+        LaunchedEffect(group) {
+            viewModel.updateData(group)
         }
-
 
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             TextField(
