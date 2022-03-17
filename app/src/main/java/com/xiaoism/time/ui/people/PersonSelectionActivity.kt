@@ -7,7 +7,7 @@ import com.xiaoism.time.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PersonSelectionActivity : AppCompatActivity(R.layout.activity_person_selection) {
+class PersonSelectionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {

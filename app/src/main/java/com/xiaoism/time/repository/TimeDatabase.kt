@@ -37,7 +37,7 @@ public abstract class TimeDatabase : RoomDatabase() {
                     context.applicationContext,
                     TimeDatabase::class.java,
                     "synctime.db"
-                ).createFromAsset("database/times.db")
+                )                               .createFromAsset("database/times.db")
                     .build()
                 INSTANCE = instance
                 return instance

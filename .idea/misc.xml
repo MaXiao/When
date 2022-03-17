@@ -20,9 +20,11 @@
         <entry key="..\:/Users/Selki/develop/When/app/src/main/res/layout/fragment_person_selection.xml" value="0.2315096251266464" />
         <entry key="..\:/Users/Selki/develop/When/app/src/main/res/layout/list_cell_item.xml" value="0.24114583333333334" />
         <entry key="app/src/main/res/layout/activity_group.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_person_selection.xml" value="0.14447463768115942" />
         <entry key="app/src/main/res/layout/cell_note.xml" value="0.13821138211382114" />
         <entry key="app/src/main/res/layout/fragment_groups.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_notes.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_person_selection.xml" value="0.18089430894308944" />
       </map>
     </option>
   </component>
