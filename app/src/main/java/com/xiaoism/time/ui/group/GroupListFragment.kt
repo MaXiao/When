@@ -86,7 +86,7 @@ class GroupListFragment : Fragment() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "${group.group.name}",
+                text = group.group.name,
                 fontSize = 20.sp
             )
             Text(text = "${group.persons.size}")

@@ -14,11 +14,7 @@ class PeopleListViewModel @Inject constructor(
     private val repository: PersonRepository
 ) :
     ViewModel() {
-    var people: LiveData<List<PersonWithCity>>
-
-    init {
-        people = repository.allPerson
-    }
+    var people: LiveData<List<PersonWithCity>> = repository.allPerson
 
     fun deletePerson(p: PersonWithCity) {
         viewModelScope.launch(Dispatchers.IO) {

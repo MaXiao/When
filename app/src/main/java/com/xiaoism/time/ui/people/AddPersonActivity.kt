@@ -36,16 +36,17 @@ class AddPersonActivity : AppCompatActivity() {
             when (it) {
                 AddPersonViewModel.Destination.CITY -> goToAddCity()
                 AddPersonViewModel.Destination.SAVE_SUCCESS -> personSaved()
+                else -> {}
             }
         })
 
         setContent {
-            Scaffold( content = {content()})
+            Scaffold(content = { Content() })
         }
     }
 
     @Composable
-    private fun content() {
+    private fun Content() {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             var name by remember { mutableStateOf("") }
             val city by viewModel.cityName.observeAsState(initial = "")
