@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContract
 import com.xiaoism.time.model.PersonWithCity
+import com.xiaoism.time.ui.people.PersonSelectionActivity.Companion.EXISTING_MEMBER
+import com.xiaoism.time.ui.people.PersonSelectionActivity.Companion.MULTI_CHOICE
 
 class PersonsSelectActivityContract :
     ActivityResultContract<PersonsSelectActivityContract.PersonSelectInput, List<PersonWithCity>?>() {
@@ -19,10 +21,10 @@ class PersonsSelectActivityContract :
 
     override fun createIntent(context: Context, input: PersonSelectInput): Intent {
         val intent = Intent(context, PersonSelectionActivity::class.java)
-        intent.putExtra(PersonSelectionFragment.MULTI_CHOICE, input.multiSelect)
+        intent.putExtra(MULTI_CHOICE, input.multiSelect)
         input.members?.let {
             val members = ArrayList(it)
-            intent.putParcelableArrayListExtra(PersonSelectionFragment.EXISTING_MEMBER, members)
+            intent.putParcelableArrayListExtra(EXISTING_MEMBER, members)
         }
         return intent
     }
