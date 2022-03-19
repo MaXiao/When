@@ -1,4 +1,4 @@
-package com.xiaoism.time.ui.people
+package com.xiaoism.time.ui.person
 
 import androidx.lifecycle.*
 import com.xiaoism.time.model.Person
@@ -10,11 +10,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PeopleListViewModel @Inject constructor(
+class PersonListViewModel @Inject constructor(
     private val repository: PersonRepository
 ) :
     ViewModel() {
-    var people: LiveData<List<PersonWithCity>> = repository.allPerson
+    var persons: LiveData<List<PersonWithCity>> = repository.allPerson
 
     fun deletePerson(p: PersonWithCity) {
         viewModelScope.launch(Dispatchers.IO) {

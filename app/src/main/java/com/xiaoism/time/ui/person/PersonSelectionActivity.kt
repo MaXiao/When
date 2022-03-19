@@ -1,4 +1,4 @@
-package com.xiaoism.time.ui.people
+package com.xiaoism.time.ui.person
 
 import android.app.Activity
 import android.content.Intent
@@ -22,9 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.fragment.app.commit
-import androidx.fragment.app.viewModels
-import com.xiaoism.time.R
 import com.xiaoism.time.model.PersonWithCity
 import dagger.hilt.android.AndroidEntryPoint
 

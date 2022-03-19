@@ -24,7 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xiaoism.time.model.PersonWithCity
-import com.xiaoism.time.ui.people.PersonsSelectActivityContract
+import com.xiaoism.time.ui.person.PersonsSelectActivityContract
 import com.xiaoism.time.util.livedata.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -27,7 +27,7 @@ object DBModule {
 
     @Singleton
     @Provides
-    fun providePersonDao(db: TimeDatabase) = db.peopleDao
+    fun providePersonDao(db: TimeDatabase) = db.personDao
 
     @Singleton
     @Provides

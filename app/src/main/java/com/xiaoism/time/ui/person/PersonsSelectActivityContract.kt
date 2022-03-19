@@ -1,12 +1,12 @@
-package com.xiaoism.time.ui.people
+package com.xiaoism.time.ui.person
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContract
 import com.xiaoism.time.model.PersonWithCity
-import com.xiaoism.time.ui.people.PersonSelectionActivity.Companion.EXISTING_MEMBER
-import com.xiaoism.time.ui.people.PersonSelectionActivity.Companion.MULTI_CHOICE
+import com.xiaoism.time.ui.person.PersonSelectionActivity.Companion.EXISTING_MEMBER
+import com.xiaoism.time.ui.person.PersonSelectionActivity.Companion.MULTI_CHOICE
 
 class PersonsSelectActivityContract :
     ActivityResultContract<PersonsSelectActivityContract.PersonSelectInput, List<PersonWithCity>?>() {

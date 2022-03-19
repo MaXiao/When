@@ -21,9 +21,9 @@
         <activity android:name=".ui.city.AddCityActivity" />
         <activity android:name=".ui.group.GroupActivity" />
         <activity android:name=".ui.group.CreateGroupActivity" />
-        <activity android:name=".ui.people.PersonSelectionActivity" />
-        <activity android:name=".ui.people.AddPersonActivity" />
-        <activity android:name=".ui.people.PersonActivity" />
+        <activity android:name=".ui.person.PersonSelectionActivity" />
+        <activity android:name=".ui.person.AddPersonActivity" />
+        <activity android:name=".ui.person.PersonActivity" />
 
     </application>
 

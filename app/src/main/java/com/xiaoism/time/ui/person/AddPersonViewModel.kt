@@ -1,4 +1,4 @@
-package com.xiaoism.time.ui.people
+package com.xiaoism.time.ui.person
 
 import androidx.lifecycle.*
 import com.xiaoism.time.model.City

@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 )
 public abstract class TimeDatabase : RoomDatabase() {
     abstract val cityDao: CityDao
-    abstract val peopleDao: PersonDao
+    abstract val personDao: PersonDao
     abstract val groupDao: GroupDao
 
     companion object {

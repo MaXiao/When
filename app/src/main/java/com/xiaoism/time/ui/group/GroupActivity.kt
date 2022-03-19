@@ -26,7 +26,7 @@ import com.xiaoism.time.model.GroupWithPersons
 import com.xiaoism.time.model.PersonWithCity
 import androidx.compose.runtime.livedata.observeAsState
 import com.xiaoism.time.model.Group
-import com.xiaoism.time.ui.people.PersonsSelectActivityContract
+import com.xiaoism.time.ui.person.PersonsSelectActivityContract
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import kotlin.math.roundToInt

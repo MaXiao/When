@@ -1,4 +1,4 @@
-package com.xiaoism.time.ui.people
+package com.xiaoism.time.ui.person
 
 import android.content.Intent
 import android.os.Bundle
@@ -34,7 +34,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class PersonListFragment : Fragment() {
-    private val viewModel by viewModels<PeopleListViewModel>()
+    private val viewModel by viewModels<PersonListViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,8 +49,8 @@ class PersonListFragment : Fragment() {
     }
 
     @Composable
-    private fun Content(viewModel: PeopleListViewModel) {
-        val persons by viewModel.people.observeAsState(initial = emptyList())
+    private fun Content(viewModel: PersonListViewModel) {
+        val persons by viewModel.persons.observeAsState(initial = emptyList())
 
         LazyColumn() {
             items(persons) { person ->

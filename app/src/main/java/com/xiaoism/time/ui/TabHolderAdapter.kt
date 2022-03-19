@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.xiaoism.time.ui.group.GroupListFragment
-import com.xiaoism.time.ui.people.PersonListFragment
+import com.xiaoism.time.ui.person.PersonListFragment
 
 private const val NUM_PAGES = 2;
 

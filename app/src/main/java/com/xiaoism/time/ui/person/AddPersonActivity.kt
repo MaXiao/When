@@ -1,4 +1,4 @@
-package com.xiaoism.time.ui.people
+package com.xiaoism.time.ui.person
 
 import android.os.Bundle
 import android.widget.Toast
