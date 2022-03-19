@@ -1,5 +1,6 @@
 package com.xiaoism.time.ui.group
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,24 +23,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.compose.hiltViewModel
 
 import com.xiaoism.time.model.GroupWithPersons
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class GroupListFragment : Fragment() {
-    private val viewModel by viewModels<GroupListViewModel>()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return ComposeView(requireContext()).apply {
             setContent {
                 GroupListContent()
@@ -49,39 +49,41 @@ class GroupListFragment : Fragment() {
 
     @Composable
     fun GroupListContent() {
-        Scaffold(floatingActionButton = { createBtn() }, content = { listContent() })
+        Scaffold(floatingActionButton = { CreateBtn() }, content = { ListContent() })
     }
 
     @Composable
-    private fun listContent() {
+    private fun ListContent() {
+        val viewModel: GroupListViewModel = hiltViewModel()
         val groups by viewModel.groups.observeAsState(initial = emptyList())
 
         LazyColumn {
             items(groups) { group ->
-                groupRow(group = group)
+                GroupRow(group = group)
                 Divider(color = Color.Gray, thickness = 6.dp)
             }
         }
     }
 
     @Composable
-    private fun createBtn() {
-        val onClick = {
-            createGroup()
-        }
-        FloatingActionButton(modifier = Modifier.testTag("addButton"), onClick = onClick) {
+    private fun CreateBtn() {
+        val context = LocalContext.current
+        FloatingActionButton(
+            modifier = Modifier.testTag("addButton"),
+            onClick = { createGroup(context) }) {
             Icon(Icons.Filled.Add, "")
         }
     }
 
     @Composable
-    private fun groupRow(group: GroupWithPersons) {
+    private fun GroupRow(group: GroupWithPersons) {
+        val context = LocalContext.current
         Row(
             modifier = Modifier
                 .testTag("groupRow")
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp, vertical = 6.dp)
-                .clickable { onItemClick(group) },
+                .clickable { onItemClick(group, context) },
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -93,14 +95,14 @@ class GroupListFragment : Fragment() {
         }
     }
 
-    private fun onItemClick(group: GroupWithPersons) {
-        val intent = Intent(activity, GroupActivity::class.java)
+    private fun onItemClick(group: GroupWithPersons, context: Context) {
+        val intent = Intent(context, GroupActivity::class.java)
         intent.putExtra("group", group.group.groupId)
         startActivity(intent)
     }
 
-    private fun createGroup() {
-        val intent = Intent(activity, CreateGroupActivity::class.java)
+    private fun createGroup(context: Context) {
+        val intent = Intent(context, CreateGroupActivity::class.java)
         startActivity(intent)
     }
 }
