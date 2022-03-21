@@ -25,12 +25,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xiaoism.time.model.City
-import com.xiaoism.time.ui.MainViewModel
+import com.xiaoism.time.ui.AddCityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AddCityActivity : AppCompatActivity() {
-    private val viewModel by viewModels<MainViewModel>()
+    private val viewModel by viewModels<AddCityViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +41,7 @@ class AddCityActivity : AppCompatActivity() {
     }
 
     @Composable
-    fun Content(viewModel: MainViewModel) {
+    fun Content(viewModel: AddCityViewModel) {
         var value by remember { mutableStateOf("") }
         val cities by viewModel.cities.observeAsState(initial = emptyList())
 

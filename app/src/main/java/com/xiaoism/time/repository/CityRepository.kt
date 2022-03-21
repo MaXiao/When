@@ -2,6 +2,8 @@ package com.xiaoism.time.repository
 
 import androidx.lifecycle.LiveData
 import com.xiaoism.time.model.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CityRepository @Inject constructor(
@@ -9,8 +11,9 @@ class CityRepository @Inject constructor(
 ) {
     val allCities: LiveData<List<City>> = cityDao.getAllCities();
 
-    fun searchCity(input: String): List<City> {
-        val result = cityDao.findCityWithName(input)
-        return result;
+    suspend fun searchCity(input: String): List<City> {
+        return withContext(Dispatchers.IO) {
+            cityDao.findCityWithName(input)
+        }
     }
 }
