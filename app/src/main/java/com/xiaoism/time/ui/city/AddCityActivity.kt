@@ -25,7 +25,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xiaoism.time.model.City
-import com.xiaoism.time.ui.AddCityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

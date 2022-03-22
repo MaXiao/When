@@ -21,8 +21,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.xiaoism.time.model.PersonWithCity
 import com.xiaoism.time.ui.person.PersonsSelectActivityContract
 import com.xiaoism.time.util.livedata.EventObserver
@@ -50,12 +52,13 @@ class CreateGroupActivity : AppCompatActivity() {
         })
 
         setContent {
-            Scaffold(content = { Content(viewModel) }, floatingActionButton = { AddButton() })
+            Scaffold(content = { ScreenContent() }, floatingActionButton = { AddButton() })
         }
     }
 
     @Composable
-    private fun Content(viewModel: CreateGroupViewModel) {
+    private fun ScreenContent() {
+        val viewModel: CreateGroupViewModel = hiltViewModel()
         val persons by viewModel.persons.observeAsState(initial = emptyList())
         val name by viewModel.name.observeAsState(initial = "")
         val group = viewModel.group?.observeAsState()?.value
@@ -79,15 +82,9 @@ class CreateGroupActivity : AppCompatActivity() {
             )
             LazyColumn() {
                 items(persons) { person ->
-                    Text(
-                        text = person.person.name,
-                        textAlign = TextAlign.Center,
-                        fontSize = 20.sp,
-                        modifier = Modifier
-                            .padding(vertical = 10.dp, horizontal = 12.dp)
-                            .fillMaxWidth()
-                            .clickable { onItemClick(person) }
-                    )
+                    GroupCell(name = person.person.name) {
+                        onItemClick(person)
+                    }
                 }
             }
             OutlinedButton(onClick = { viewModel.save() }) {
@@ -101,6 +98,25 @@ class CreateGroupActivity : AppCompatActivity() {
         FloatingActionButton(onClick = { goToSelectMembers() }) {
             Icon(Icons.Filled.Add, "add member")
         }
+    }
+
+    @Composable
+    private fun GroupCell(name: String, onClick: () -> Unit) {
+        Text(
+            text = name,
+            textAlign = TextAlign.Center,
+            fontSize = 20.sp,
+            modifier = Modifier
+                .padding(vertical = 10.dp, horizontal = 12.dp)
+                .fillMaxWidth()
+                .clickable { onClick() }
+        )
+    }
+
+    @Preview("Group Cell", showBackground = true)
+    @Composable
+    private fun GroupCellPreview() {
+        GroupCell(name = "Xiao") {}
     }
 
     private val selectMembers = registerForActivityResult(PersonsSelectActivityContract()) { list ->

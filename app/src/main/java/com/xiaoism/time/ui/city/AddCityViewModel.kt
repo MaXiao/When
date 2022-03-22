@@ -1,4 +1,4 @@
-package com.xiaoism.time.ui
+package com.xiaoism.time.ui.city
 
 import android.util.Log
 import androidx.lifecycle.*

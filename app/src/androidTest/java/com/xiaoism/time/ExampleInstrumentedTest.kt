@@ -6,7 +6,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.xiaoism.time.ui.TabHolderActivity
+import com.xiaoism.time.ui.MainActivity
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -29,7 +29,7 @@ class ExampleInstrumentedTest {
     }
 
     @get:Rule
-    val testComposeRule = createAndroidComposeRule(TabHolderActivity::class.java)
+    val testComposeRule = createAndroidComposeRule(MainActivity::class.java)
 
     @Test
     fun testGroupAddBtn() {

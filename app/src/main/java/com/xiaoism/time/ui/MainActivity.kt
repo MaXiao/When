@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 
 @ExperimentalPagerApi
 @AndroidEntryPoint
-class TabHolderActivity : FragmentActivity() {
+class MainActivity : FragmentActivity() {
     private lateinit var viewPager: ViewPager2
 
     override fun onCreate(savedInstanceState: Bundle?) {
