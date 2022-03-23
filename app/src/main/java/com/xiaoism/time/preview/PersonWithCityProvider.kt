@@ -16,5 +16,4 @@ class PersonWithCityProvider : PreviewParameterProvider<PersonWithCity> {
                 CityData.TORONTO
             )
         )
-
 }

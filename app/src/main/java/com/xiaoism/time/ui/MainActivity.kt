@@ -9,6 +9,7 @@ import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -51,7 +52,7 @@ class MainActivity : FragmentActivity() {
         val pagerState = rememberPagerState()
         val scope = rememberCoroutineScope()
 
-        Column {
+        Column(modifier = Modifier.testTag("Home")) {
             TabRow(selectedTabIndex = tabIndex, indicator = { tabPositions ->
                 TabRowDefaults.Indicator(Modifier.pagerTabIndicatorOffset(pagerState, tabPositions))
             }) {

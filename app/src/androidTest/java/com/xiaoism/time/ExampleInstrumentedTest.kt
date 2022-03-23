@@ -6,6 +6,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.xiaoism.time.ui.MainActivity
 
 import org.junit.Test
@@ -20,6 +21,7 @@ import org.junit.Rule
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4::class)
+@OptIn(ExperimentalPagerApi::class)
 class ExampleInstrumentedTest {
     @Test
     fun useAppContext() {
@@ -32,10 +34,9 @@ class ExampleInstrumentedTest {
     val testComposeRule = createAndroidComposeRule(MainActivity::class.java)
 
     @Test
-    fun testGroupAddBtn() {
-        val button = testComposeRule.onNode(hasTestTag("addButton"), true)
-
-        button.assertIsDisplayed()
-        button.performClick()
+    fun testHome() {
+        // Check home page is visible on launch
+        val home = testComposeRule.onNode(hasTestTag("Home"), true)
+        home.assertIsDisplayed()
     }
 }

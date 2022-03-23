@@ -24,5 +24,15 @@ sealed class CityData {
             alternateNames = null,
             asciiName = null
         )
+        val AUCKLAND = City(
+            geonameId = "2193733",
+            name = "Beijing",
+            timezone = "Pacific/Auckland",
+            longitude = 174.76349,
+            latitude = -36.84853,
+            country = "New Zealand",
+            alternateNames = null,
+            asciiName = null
+        )
     }
 }
