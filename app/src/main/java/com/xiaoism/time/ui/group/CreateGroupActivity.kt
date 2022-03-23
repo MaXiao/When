@@ -22,10 +22,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.xiaoism.time.model.PersonWithCity
+import com.xiaoism.time.preview.PersonWithCityProvider
 import com.xiaoism.time.ui.person.PersonsSelectActivityContract
 import com.xiaoism.time.util.livedata.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
@@ -82,7 +84,7 @@ class CreateGroupActivity : AppCompatActivity() {
             )
             LazyColumn() {
                 items(persons) { person ->
-                    GroupCell(name = person.person.name) {
+                    GroupCell(person) {
                         onItemClick(person)
                     }
                 }
@@ -101,9 +103,9 @@ class CreateGroupActivity : AppCompatActivity() {
     }
 
     @Composable
-    private fun GroupCell(name: String, onClick: () -> Unit) {
+    private fun GroupCell(person: PersonWithCity, onClick: () -> Unit) {
         Text(
-            text = name,
+            text = person.person.name,
             textAlign = TextAlign.Center,
             fontSize = 20.sp,
             modifier = Modifier
@@ -115,8 +117,8 @@ class CreateGroupActivity : AppCompatActivity() {
 
     @Preview("Group Cell", showBackground = true)
     @Composable
-    private fun GroupCellPreview() {
-        GroupCell(name = "Xiao") {}
+    private fun GroupCellPreview(@PreviewParameter(PersonWithCityProvider::class) person: PersonWithCity) {
+        GroupCell(person) {}
     }
 
     private val selectMembers = registerForActivityResult(PersonsSelectActivityContract()) { list ->
