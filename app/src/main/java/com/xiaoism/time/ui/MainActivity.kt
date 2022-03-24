@@ -58,6 +58,7 @@ class MainActivity : FragmentActivity() {
             }) {
                 titles.forEachIndexed { index, title ->
                     Tab(
+                        modifier = Modifier.testTag(title),
                         selected = tabIndex == index,
                         onClick = {
                             tabIndex = index

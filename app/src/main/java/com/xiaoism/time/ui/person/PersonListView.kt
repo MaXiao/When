@@ -31,6 +31,7 @@ import com.xiaoism.time.model.PersonWithCity
 @Composable
 fun PersonListView() {
     Scaffold(
+        modifier = Modifier.testTag("PersonListView"),
         content = { PersonListContent() },
         floatingActionButton = { CreateBtn(LocalContext.current) })
 }

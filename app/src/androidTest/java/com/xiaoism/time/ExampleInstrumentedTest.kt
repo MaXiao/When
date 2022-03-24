@@ -23,13 +23,6 @@ import org.junit.Rule
 @RunWith(AndroidJUnit4::class)
 @OptIn(ExperimentalPagerApi::class)
 class ExampleInstrumentedTest {
-    @Test
-    fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.xiaoism.time", appContext.packageName)
-    }
-
     @get:Rule
     val testComposeRule = createAndroidComposeRule(MainActivity::class.java)
 
@@ -38,5 +31,28 @@ class ExampleInstrumentedTest {
         // Check home page is visible on launch
         val home = testComposeRule.onNode(hasTestTag("Home"), true)
         home.assertIsDisplayed()
+    }
+
+    @Test
+    fun testTabs() {
+        // Check two tabs are visible
+        val groupTab = testComposeRule.onNode(hasTestTag("Groups"))
+        groupTab.assertIsDisplayed()
+
+        val personsTab = testComposeRule.onNode(hasTestTag("Persons"))
+        personsTab.assertIsDisplayed()
+
+        // Check Group view is visible on launch
+        val groupView = testComposeRule.onNode(hasTestTag("GroupListView"))
+        groupView.assertIsDisplayed()
+
+        // switch to person view when click person tab
+        personsTab.performClick()
+        val personView = testComposeRule.onNode(hasTestTag("PersonListView"))
+        personView.assertIsDisplayed()
+
+        // switch to group view when click group tab
+        groupTab.performClick()
+        groupView.assertIsDisplayed()
     }
 }

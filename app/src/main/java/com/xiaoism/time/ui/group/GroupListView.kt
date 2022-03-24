@@ -27,7 +27,10 @@ import com.xiaoism.time.model.GroupWithPersons
 
 @Composable
 fun GroupListView() {
-    Scaffold(floatingActionButton = { CreateBtn() }, content = { ListContent() })
+    Scaffold(
+        modifier = Modifier.testTag("GroupListView"),
+        floatingActionButton = { CreateBtn() },
+        content = { ListContent() })
 }
 
 @Composable
