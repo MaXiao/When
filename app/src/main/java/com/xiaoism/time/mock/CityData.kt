@@ -34,5 +34,15 @@ sealed class CityData {
             alternateNames = null,
             asciiName = null
         )
+        val LONDON = City(
+            geonameId = "2193733",
+            name = "London",
+            timezone = "Europe/London",
+            longitude = -0.12574,
+            latitude = 51.50853,
+            country = "United Kingdom",
+            alternateNames = null,
+            asciiName = null
+        )
     }
 }
