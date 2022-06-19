@@ -1,6 +1,7 @@
 package com.xiaoism.time.model
 
 import android.os.Parcelable
+import androidx.compose.ui.text.toLowerCase
 import androidx.room.*
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
@@ -22,10 +23,15 @@ data class City(
     @Ignore
     val zone: TimeZone = TimeZone.getTimeZone(timezone)
 
+    @Ignore
+    private val cal = Calendar.getInstance(zone)
+
     @delegate:Ignore
     private val dateFormat: SimpleDateFormat by lazy {
-        val format = SimpleDateFormat("HH:mm:ss / MMM dd",
-            Locale.getDefault())
+        val format = SimpleDateFormat(
+            "hh:mma",
+            Locale.getDefault()
+        )
         format.timeZone = zone
         format
     }
@@ -39,10 +45,31 @@ data class City(
     }
 
     fun getLocalTime(): String {
-        return dateFormat.format(Date())
+        return dateFormat.format(Date()).lowercase()
     }
 
     fun getLocalTimeFor(date: Date): String {
-        return dateFormat.format(date)
+        return dateFormat.format(date).lowercase()
+    }
+
+    fun getDayOfYear(date: Date): Int {
+        cal.time = date
+        return cal.get(Calendar.DAY_OF_YEAR);
+    }
+
+    fun getHourOfDay(date: Date): Int {
+        cal.time = date
+        return cal.get(Calendar.HOUR_OF_DAY)
+    }
+
+    fun getDayDiff(date: Date): Int {
+        val localCal = Calendar.getInstance();
+        localCal.time = date
+        return getDayOfYear(date) - localCal.get(Calendar.DAY_OF_YEAR)
+    }
+
+    fun isDayTime(date: Date, range: IntRange = 8..20): Boolean {
+        val hour = getHourOfDay(date)
+        return hour in range
     }
 }

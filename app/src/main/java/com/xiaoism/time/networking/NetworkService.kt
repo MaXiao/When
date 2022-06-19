@@ -1,4 +1,4 @@
 package com.xiaoism.time.networking
 
-class TimeService {
+class NetworkService {
 }

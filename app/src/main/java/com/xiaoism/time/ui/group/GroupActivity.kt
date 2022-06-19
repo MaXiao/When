@@ -33,8 +33,19 @@ import kotlin.math.roundToInt
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.constraintlayout.compose.ConstraintLayout
+import com.xiaoism.time.R
+import com.xiaoism.time.ui.group.components.PersonGrid
+import com.xiaoism.time.ui.theme.Typography
 import com.xiaoism.time.ui.view.ArcSlider
+import java.text.SimpleDateFormat
 
 
 @AndroidEntryPoint
@@ -42,6 +53,10 @@ class GroupActivity : ComponentActivity() {
     private val viewModel by viewModels<GroupViewModel>()
     private val currentDate = Date()
     private val cal = Calendar.getInstance()
+    val timeFormat = SimpleDateFormat(
+        "hh:mma",
+        Locale.getDefault()
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,10 +69,12 @@ class GroupActivity : ComponentActivity() {
         }
 
         setContent {
-            Scaffold(
-                content = { Content() },
-                floatingActionButton = { AddBtn() }
-            )
+            MaterialTheme(typography = Typography) {
+                Scaffold(
+                    content = { Content() },
+                    floatingActionButton = { AddBtn() }
+                )
+            }
         }
     }
 
@@ -69,6 +86,7 @@ class GroupActivity : ComponentActivity() {
         }
     }
 
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun Content() {
         val group by viewModel.group.observeAsState(
@@ -87,6 +105,9 @@ class GroupActivity : ComponentActivity() {
             )
 
         )
+        val totalCount = group.persons.size
+        val availableCount =
+            group.persons.filter { person -> person.city?.isDayTime(date) ?: false }.size
 
         val datePicker =
             DatePickerDialog(this, { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
@@ -99,14 +120,13 @@ class GroupActivity : ComponentActivity() {
                 setDate(localCal.time)
             }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH))
 
-        Column {
+        Column(modifier = Modifier.fillMaxHeight()) {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
                     group.group.name,
-                    textAlign = TextAlign.Center,
-                    fontSize = 30.sp,
+                    style = MaterialTheme.typography.h1,
                     modifier = Modifier
-                        .padding(vertical = 10.dp)
+                        .padding(vertical = 40.dp, horizontal = 12.dp)
                         .weight(1f)
                 )
 
@@ -114,33 +134,53 @@ class GroupActivity : ComponentActivity() {
                     Text("Edit")
                 }
             }
-            LazyColumn(Modifier.weight(1f)) {
+            LazyVerticalGrid(cells = GridCells.Fixed(2), modifier = Modifier.weight(1f)) {
                 items(group.persons.sortedBy { it.person.name.lowercase(Locale.getDefault()) }) { person ->
-                    Row(person, date)
-                    Divider(color = Color.Gray, thickness = 6.dp)
+                    PersonGrid(person, date)
                 }
             }
-
-            Slider(sliderPosition, setSliderPosition, date, setDate)
-            Text(text = date.toString())
-            Spacer(modifier = Modifier.height(20.dp))
-            ArcSlider(
+            Divider(color = Color.Black, modifier = Modifier.height(1.dp))
+            ConstraintLayout(
                 modifier = Modifier
-                    .height(400.dp)
                     .fillMaxWidth()
-                    .background(color.copy(alpha = 0.1f)), value = 0.3f
-            ) { ratio ->
-                val mins = ((MIN_PER_DAY / 5) * ratio).roundToInt() * 5
-                // end of time picker is exclusive, since it goes to next day
-                val adjustedMins = if (mins == MIN_PER_DAY) mins - 5 else mins
-                val date = convertTime(adjustedMins, date)
-                setDate(date)
-            }
-            OutlinedButton(onClick = { datePicker.show() }) {
-                Text("Date")
-            }
-            OutlinedButton(onClick = { shareCalendarEvent(date.time) }) {
-                Text("Share")
+                    .height(200.dp)
+            ) {
+                val (available, time, note) = createRefs()
+
+                ArcSlider(
+                    modifier = Modifier
+                        .background(color.copy(alpha = 0.1f))
+                        .height(200.dp)
+                        .fillMaxWidth(), value = 0.3f
+                ) { ratio ->
+                    val mins = ((MIN_PER_DAY / 5) * ratio).roundToInt() * 5
+                    // end of time picker is exclusive, since it goes to next day
+                    val adjustedMins = if (mins == MIN_PER_DAY) mins - 5 else mins
+                    val d = convertTime(adjustedMins, date)
+                    setDate(d)
+                }
+                Text(
+                    "$availableCount/$totalCount Available",
+                    style = MaterialTheme.typography.h2,
+                    modifier = Modifier.constrainAs(available) {
+                        start.linkTo(parent.start, margin = 16.dp)
+                        top.linkTo(parent.top, margin = 20.dp)
+                    })
+                Text(
+                    text = timeFormat.format(date),
+                    style = MaterialTheme.typography.h3,
+                    modifier = Modifier.constrainAs(time) {
+                        end.linkTo(parent.end, margin = 16.dp)
+                        top.linkTo(parent.top, margin = 16.dp)
+                    })
+                Text(
+                    "Your local time",
+                    style = MaterialTheme.typography.subtitle1,
+                    modifier = Modifier.constrainAs(note) {
+                        top.linkTo(time.bottom, margin = 4.dp)
+                        end.linkTo(parent.end, margin = 16.dp)
+                    }
+                )
             }
         }
     }
@@ -164,26 +204,6 @@ class GroupActivity : ComponentActivity() {
                 activeTrackColor = MaterialTheme.colors.secondary
             )
         )
-    }
-
-    @Composable
-    private fun Row(person: PersonWithCity, date: Date) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 6.dp)
-        ) {
-            Text(person.person.name, fontSize = 16.sp)
-            if (person.city != null) {
-                Text(
-                    person.city.getLocalTimeFor(date),
-                    fontSize = 13.sp,
-                    color = Color.LightGray
-                )
-            }
-        }
     }
     //endregion
 
