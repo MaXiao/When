@@ -29,7 +29,7 @@ fun PersonGrid(person: PersonWithCity, date: Date) {
         Divider(
             color = Color.Black,
             modifier = Modifier
-                .width(1.dp)
+                .width(2.dp)
                 .height(100.dp)
         )
         Column(modifier = Modifier.padding(start = 12.dp)) {
