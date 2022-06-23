@@ -36,6 +36,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.ui.res.painterResource
@@ -121,17 +122,38 @@ class GroupActivity : ComponentActivity() {
             }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH))
 
         Column(modifier = Modifier.fillMaxHeight()) {
-            Row(horizontalArrangement = Arrangement.SpaceBetween) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.padding(vertical = 40.dp)
+            ) {
                 Text(
                     group.group.name,
                     style = MaterialTheme.typography.h1,
                     modifier = Modifier
-                        .padding(vertical = 40.dp, horizontal = 12.dp)
+                        .padding(horizontal = 12.dp)
                         .weight(1f)
                 )
 
-                OutlinedButton(onClick = { editGroup(group.group.groupId) }) {
-                    Text("Edit")
+                Row {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_share),
+                        contentDescription = "share icon",
+                        modifier = Modifier
+                            .padding(end = 12.dp)
+                            .width(32.dp)
+                            .height(32.dp)
+                            .clickable { shareCalendarEvent(0) }
+                    )
+
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_more_options),
+                        contentDescription = "share icon",
+                        modifier = Modifier
+                            .padding(end = 12.dp)
+                            .width(32.dp)
+                            .height(32.dp)
+                            .clickable { editGroup(group.group.groupId) }
+                    )
                 }
             }
             LazyVerticalGrid(cells = GridCells.Fixed(2), modifier = Modifier.weight(1f)) {
@@ -244,13 +266,24 @@ class GroupActivity : ComponentActivity() {
     }
 
     private fun shareCalendarEvent(startMillis: Long) {
-        val intent = Intent(Intent.ACTION_INSERT).apply {
-            data = CalendarContract.Events.CONTENT_URI
-            putExtra(CalendarContract.Events.TITLE, "game night")
-            putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
-            putExtra(CalendarContract.EXTRA_EVENT_END_TIME, startMillis + 3000)
-//            putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com")
+        val startMillis: Long = Calendar.getInstance().run {
+            set(2022, 0, 19, 7, 30)
+            timeInMillis
         }
+        val endMillis: Long = Calendar.getInstance().run {
+            set(2022, 0, 19, 8, 30)
+            timeInMillis
+        }
+        val intent = Intent(Intent.ACTION_INSERT)
+            .setData(CalendarContract.Events.CONTENT_URI)
+            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
+            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
+            .putExtra(CalendarContract.Events.TITLE, "Yoga")
+            .putExtra(CalendarContract.Events.DESCRIPTION, "Group class")
+            .putExtra(CalendarContract.Events.EVENT_LOCATION, "The gym")
+            .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+            .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com")
+        startActivity(intent)
 
         val packages = intent.resolveActivity(packageManager)
         if (packages != null) {
