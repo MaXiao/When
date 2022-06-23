@@ -1,15 +1,21 @@
 package com.xiaoism.time.ui.group.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateIntAsState
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.xiaoism.time.R
@@ -19,6 +25,20 @@ import java.util.*
 @Composable
 fun PersonGrid(person: PersonWithCity, date: Date) {
     val isDayTime = person.city?.isDayTime(date) ?: true
+    val density = LocalContext.current.resources.displayMetrics.density
+    var dashLength = animateFloatAsState(targetValue = if (isDayTime) 5f else 2f)
+    var dashGap = animateFloatAsState(targetValue = if (isDayTime) 0f else 3f)
+    var borderRotate = animateFloatAsState(targetValue = if (isDayTime) 0f else 90f)
+    val stroke = Stroke(
+        width = 2f,
+        pathEffect = PathEffect.dashPathEffect(
+            floatArrayOf(
+                dashLength.value * density,
+                dashGap.value * density
+            ), 0f
+        )
+    )
+
     Row(
         verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.Start,
@@ -33,14 +53,26 @@ fun PersonGrid(person: PersonWithCity, date: Date) {
                 .height(100.dp)
         )
         Column(modifier = Modifier.padding(start = 12.dp)) {
-            Image(
-                painter = painterResource(id = if (isDayTime) R.drawable.ic_sun else R.drawable.ic_moon),
-                contentDescription = "icon sun",
+            Box(
                 modifier = Modifier
                     .width(44.dp)
                     .height(56.dp)
                     .padding(bottom = 12.dp)
-            )
+            ) {
+                Canvas(modifier = Modifier
+                    .fillMaxSize()
+                    .rotate(borderRotate.value)) {
+                    drawCircle(color = Color.Black, style = stroke)
+                }
+                Image(
+                    painter = painterResource(id = if (isDayTime) R.drawable.ic_day else R.drawable.ic_evening),
+                    contentDescription = "day/night icon",
+                    modifier = Modifier
+                        .padding(11.dp)
+                        .width(22.dp)
+                        .height(22.dp)
+                )
+            }
             Text(
                 person.person.name,
                 style = MaterialTheme.typography.h3,
