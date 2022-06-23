@@ -1,6 +1,9 @@
 package com.xiaoism.time.ui.view
 
 import android.util.Log
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -26,6 +29,7 @@ import kotlin.math.*
 private const val hMargin = 10f
 private const val topMargin = 80f
 private const val angleMargin = 45f
+private const val controlAngleMargin = 10f
 
 @Composable
 fun ArcSlider(modifier: Modifier = Modifier, value: Float, onValueChanged: (Float) -> Unit) {
@@ -37,6 +41,8 @@ fun ArcSlider(modifier: Modifier = Modifier, value: Float, onValueChanged: (Floa
     val verticalCenter = arcRadius + topMargin * density
     val startAngle = 180f + angleMargin
     val span = 180f - angleMargin * 2
+    val controlStartAngle = startAngle + controlAngleMargin
+    val controlSpan = span - controlAngleMargin * 2
     var angle by remember {
         mutableStateOf(
             calculateIndicatorAngleByPercent(
@@ -46,6 +52,7 @@ fun ArcSlider(modifier: Modifier = Modifier, value: Float, onValueChanged: (Floa
             )
         )
     }
+
     val radial = Brush.radialGradient(
         0.0f to Color(215, 103, 170, 255),
         0.66f to Color(237, 134, 83, 60),
@@ -54,7 +61,7 @@ fun ArcSlider(modifier: Modifier = Modifier, value: Float, onValueChanged: (Floa
         radius = arcRadius * 1.1f,
         tileMode = TileMode.Clamp
     )
-    val pathEffect = PathEffect.dashPathEffect(floatArrayOf(density * 2f, density * 3f), 0f)
+    val pathEffect = PathEffect.dashPathEffect(floatArrayOf(density * 3f, density * 2f), 0f)
     Canvas(modifier = modifier
         .background(radial)
         .pointerInput(Unit) {
@@ -64,7 +71,7 @@ fun ArcSlider(modifier: Modifier = Modifier, value: Float, onValueChanged: (Floa
                 val dragYOnCanvas =
                     max(
                         abs(change.position.y - verticalCenter),
-                        arcRadius * sin(toRadians(angleMargin.toDouble())).toFloat()
+                        arcRadius * sin(toRadians((angleMargin + controlAngleMargin).toDouble())).toFloat()
                     )
                 angle = calculateIndicatorAngleByPosition(dragXOnCanvas, dragYOnCanvas)
             }
@@ -75,7 +82,7 @@ fun ArcSlider(modifier: Modifier = Modifier, value: Float, onValueChanged: (Floa
         val indicatorX = arcRadius * cos(angle)
         val indicatorY = arcRadius * sin(angle)
         val indicatorDegree = Math.toDegrees(angle.toDouble())
-        val ratio = (indicatorDegree - startAngle) / span
+        val ratio = (indicatorDegree - controlStartAngle) / controlSpan
 
         onValueChanged(min(max(ratio.toFloat(), 0f), 1f))
 
