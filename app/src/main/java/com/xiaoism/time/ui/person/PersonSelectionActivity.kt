@@ -47,7 +47,7 @@ class PersonSelectionActivity : AppCompatActivity() {
     @Composable
     private fun Content(viewModel: PersonSelectionViewModel, memberIds: List<Long>) {
         val persons by viewModel.people.observeAsState(initial = emptyList())
-        val selection by viewModel.selection.observeAsState(initial = emptyList())
+        val selection = viewModel.selection
 
         Column {
             LazyColumn() {
@@ -93,15 +93,13 @@ class PersonSelectionActivity : AppCompatActivity() {
     }
 
     private fun confirmSelection() {
-        viewModel.selection.value?.let { selection ->
-            val intent = Intent()
-            intent.putParcelableArrayListExtra(
-                PersonsSelectActivityContract.PERSON_LIST,
-                ArrayList(selection)
-            )
-            setResult(Activity.RESULT_OK, intent)
-            finish()
-        }
+        val intent = Intent()
+        intent.putParcelableArrayListExtra(
+            PersonsSelectActivityContract.PERSON_LIST,
+            ArrayList(viewModel.selection.toList())
+        )
+        setResult(Activity.RESULT_OK, intent)
+        finish()
 
     }
 
