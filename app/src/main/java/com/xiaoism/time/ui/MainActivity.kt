@@ -27,8 +27,6 @@ import kotlinx.coroutines.launch
 @ExperimentalPagerApi
 @AndroidEntryPoint
 class MainActivity : FragmentActivity() {
-    private lateinit var viewPager: ViewPager2
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,14 +34,6 @@ class MainActivity : FragmentActivity() {
             PagerContent()
         }
     }
-
-//    override fun onBackPressed() {
-//        if (viewPager.currentItem == 0) {
-//            super.onBackPressed()
-//        } else {
-//            viewPager.currentItem = viewPager.currentItem - 1
-//        }
-//    }
 
     @Composable
     private fun PagerContent() {

@@ -1,9 +1,6 @@
 package com.xiaoism.time.ui.view
 
 import android.util.Log
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -18,13 +15,17 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.translate
-import androidx.compose.ui.input.pointer.consumeAllChanges
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import java.lang.Math.toRadians
 import kotlin.math.*
+import com.xiaoism.time.R
+
 
 private const val hMargin = 10f
 private const val topMargin = 80f
@@ -62,11 +63,14 @@ fun ArcSlider(modifier: Modifier = Modifier, value: Float, onValueChanged: (Floa
         tileMode = TileMode.Clamp
     )
     val pathEffect = PathEffect.dashPathEffect(floatArrayOf(density * 3f, density * 2f), 0f)
+    val vector = ImageVector.vectorResource(id = R.drawable.ic_thumb)
+    val painter = rememberVectorPainter(image = vector)
+
     Canvas(modifier = modifier
         .background(radial)
         .pointerInput(Unit) {
             detectDragGestures { change, _ ->
-                change.consumeAllChanges()
+                change.consume()
                 val dragXOnCanvas = change.position.x - horizontalCenter
                 val dragYOnCanvas =
                     max(
@@ -83,6 +87,10 @@ fun ArcSlider(modifier: Modifier = Modifier, value: Float, onValueChanged: (Floa
         val indicatorY = arcRadius * sin(angle)
         val indicatorDegree = Math.toDegrees(angle.toDouble())
         val ratio = (indicatorDegree - controlStartAngle) / controlSpan
+        val thumbCenter = Offset(
+            x = size.width / 2f - painter.intrinsicSize.width / 2,
+            y = topMargin.dp.toPx() + arcRadius - painter.intrinsicSize.height / 2
+        )
 
         onValueChanged(min(max(ratio.toFloat(), 0f), 1f))
 
@@ -96,13 +104,10 @@ fun ArcSlider(modifier: Modifier = Modifier, value: Float, onValueChanged: (Floa
             size = Size(arcRadius * 2, arcRadius * 2)
         )
 
-        translate(indicatorX, indicatorY) {
-            drawCircle(
-                color = Color.Magenta.copy(alpha = 0.4f),
-                radius = hMargin.dp.toPx(),
-                center = Offset(x = size.width / 2f, y = topMargin.dp.toPx() + arcRadius),
-                style = Stroke(width = 6.dp.toPx())
-            )
+        translate(thumbCenter.x + indicatorX, thumbCenter.y + indicatorY) {
+            with(painter) {
+                draw(painter.intrinsicSize)
+            }
         }
     }
 }

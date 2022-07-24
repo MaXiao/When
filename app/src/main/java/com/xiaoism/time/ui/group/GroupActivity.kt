@@ -40,7 +40,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.xiaoism.time.R
 import com.xiaoism.time.ui.group.components.PersonGrid
@@ -205,27 +204,6 @@ class GroupActivity : ComponentActivity() {
                 )
             }
         }
-    }
-
-    @Composable
-    private fun Slider(
-        sliderPosition: Float,
-        setSliderPosition: (Float) -> Unit,
-        date: Date,
-        setDate: (Date) -> Unit
-    ) {
-        Slider(
-            value = sliderPosition,
-            onValueChange = {
-                setSliderPosition(it)
-                setDate(convertTime(sliderPosition.roundToInt() * 5, date))
-            },
-            valueRange = 0f..(MIN_PER_DAY / 5).toFloat(),
-            colors = SliderDefaults.colors(
-                thumbColor = MaterialTheme.colors.secondary,
-                activeTrackColor = MaterialTheme.colors.secondary
-            )
-        )
     }
     //endregion
 
